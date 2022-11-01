@@ -100,9 +100,9 @@ function AuthForm() {
           <label className={classes.formLabel}>Password</label>
           <input className={classes.formInput} value={enteredPassword} onBlur={passwordInputTouchedHandler} onChange={passwordValueChangeHandler} placeholder="Enter password..." />
           &nbsp;
-          {!isLogin && <input className={classes.formInput} value={enteredConfirmPassword} onBlur={confirmPasswordTouchedHandler} onChange={confirmPasswordChangeHandler} placeholder="Confirm email..." />}
+          {!isLogin && <input className={classes.formInput} value={enteredConfirmPassword} onBlur={confirmPasswordTouchedHandler} onChange={confirmPasswordChangeHandler} placeholder="Confirm password..." />}
           <br />
-          <button className={classes.signupButton}>{isLogin ? "Log in" : "Sign up"}</button>
+          <button className={classes.signupButton}>Let's go!</button>
         </form>
       </div>
     </div>
