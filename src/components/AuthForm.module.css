@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
 
-  background-image: url( "https://images.pexels.com/photos/2286895/pexels-photo-2286895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" );
+  background-image: url("https://images.pexels.com/photos/2286895/pexels-photo-2286895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
   background-size: cover;
 }
 
@@ -29,50 +29,69 @@
 
 .formContainer {
   border-radius: 10px;
-  
-  font-size: 2vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1rem;
 
-  background: rgba( 255, 255, 255, 0.3 );
-  backdrop-filter: blur( 10px );
-  -webkit-backdrop-filter: blur( 10px );
-
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  width: 50%;
+  -webkit-backdrop-filter: blur(10px);
+/* 
   padding-left: 2vw;
   padding-right: 2vw;
 
   padding-top: 5vh;
   padding-bottom: 5vh;
   padding-left: 5vw;
-  padding-right: 5vw;
+  padding-right: 5vw; */
+
+  padding: 16px 32px;
 }
 
 .formLabel {
-  font-size: 2.5vh;
+  font-size: 1rem;
   color: rgb(0, 0, 0);
   margin-right: 1.25vw;
+  align-self: flex-start;
 }
 
 .formInput {
-  height: 3vh;
-
-  font-size: 1.6vh;
+  font-size: 1.2rem;
+  min-height: 40px;
+  padding: 4px 12px;
+  /* background-color: blue; */
+  border: 2px solid gray;
+  border-radius: 8px;
+  display: block;
 }
 
 .signupButton {
-  margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin: 8px 20px;
+  padding: 16px 100px;
 
-  width: 12vw;
-  height: 4.5vh;
+  font-size: 1.2rem;
+  color: rgb(255, 255, 255);
 
-  font-size: 2vh;
-  color: rgb( 255, 255, 255 );
-
-  border-radius: 5vh;
+  border-radius: 16px;
   border-style: none;
+  background-image: linear-gradient(100deg, rgb(0, 102, 255), rgb(0, 217, 255));
+}
 
-  background-image: linear-gradient(
-    100deg,
-    rgb(0, 102, 255),
-    rgb(0, 217, 255)
-  );
+.formRow {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 16px;
+  padding: 4px;
+  /* background-color: red; */
+}
+
+.switchAuthModeBtn {
+  background: none;
+  border:none;
+  cursor: pointer;
+  margin: 6px 0px;
+  font-size: 1.1rem;
+  color: #317cc8;
 }

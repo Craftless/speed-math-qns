@@ -58,15 +58,15 @@ export async function logIn(
   //       .catch((error) => {
   //         onError(error);
   //       });
-
-  return firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .catch((error) => {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-    });
+  try {
+    const res = await firebase.auth().signInWithEmailAndPassword(email, password);
+    if (!res) throw new Error("Could not sign up");
+  } catch (error: any) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    alert(errorCode + errorMessage);
+  }
 }
 
 export async function writeUserData(data: {
@@ -135,7 +135,6 @@ export async function updateUserProfile(
     });
   }
 }
-
 
 // export function CachedProfilePicture(props: any) {
 //   const authCtx = useContext(AuthContext);

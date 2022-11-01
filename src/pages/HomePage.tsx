@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./HomePage.module.css";
 
 function HomePage() {
@@ -5,9 +6,9 @@ function HomePage() {
     <div className="NavBar">
   		<span>Home</span>
   		&nbsp;
-  		<a href="/login">Login</a>
+  		<Link to="/auth">Login</Link>
   		&nbsp;
-  		<a href="/login">Sign Up!</a>
+  		<Link to="/login">Sign Up!</Link>
 		</div>
   );
 }

@@ -4,8 +4,9 @@ import { initializeApp } from "firebase/app";
 import "firebase/compat/auth";
 import "firebase/compat/storage";
 import "firebase/compat/database";
+import "firebase/compat/firestore";
 // import { getStorage } from "firebase/storage";
-import { initializeAuth, setPersistence } from "firebase/auth";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,19 +21,12 @@ const firebaseConfig = {
   appId: "1:433059418148:web:83eb81aeb3da3ecd6148b1",
 };
 
-let app;
-if (firebase.apps.length <= 0) app = firebase.initializeApp(firebaseConfig);
-else app = firebase.app();
-
-if (firebase.auth.length <= 0) {
-  initializeAuth(app);
-}
-
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const projectDatabase = firebase.database();
+const projectFirestore = firebase.firestore();
 const projectStorage = firebase.storage();
-export { auth, projectDatabase, projectStorage };
+export { auth, projectDatabase, projectStorage, projectFirestore };

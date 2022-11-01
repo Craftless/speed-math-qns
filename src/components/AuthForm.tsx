@@ -2,7 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import useInput from "../hooks/use-input";
-import { AuthContext } from "../store/auth-context";
+import { useLogin } from "../hooks/useLogin";
+import { useSignup } from "../hooks/useSignup";
+import { AuthContext } from "../store/AuthContext";
 import { createUser, logIn } from "../util/auth";
 import classes from "./AuthForm.module.css";
 
@@ -59,22 +61,23 @@ function AuthForm() {
     confirmPasswordTouchedHandler();
   }
 
+  const { login, isPending: loginIsPending, error: loginError } = useLogin();
+  const {
+    signup,
+    isPending: signupIsPending,
+    error: signupError,
+  } = useSignup();
+
   async function formSubmitHandler(email: string, password: string) {
     resetEmail();
     resetPassword();
     let user;
     setWaitingForResponse(true);
     if (isLogin) {
-      user = await logIn(email.trim(), password.trim(), (error) => {
-        alert(`Error: ${error.code}: ${error.message}`);
-        setWaitingForResponse(false);
-      });
+      user = await login(email.trim(), password.trim());
       navigate("/");
     } else {
-      user = await createUser(email.trim(), password.trim(), (error) => {
-        alert(`Error: ${error.code}: ${error.message}`);
-        setWaitingForResponse(false);
-      });
+      user = await signup(email.trim(), password.trim());
     }
   }
 
@@ -141,6 +144,7 @@ function AuthForm() {
           onClick={() => {
             switchAuthModeHandler();
           }}
+          className={classes.switchAuthModeBtn}
         >
           {isLogin ? "Sign up instead" : "Log in instead"}
         </button>
