@@ -4,10 +4,18 @@
   width: 100%;
   justify-content: center;
   align-items: center;
+
+  background-image: url( "https://images.unsplash.com/photo-1484591974057-265bb767ef71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80" );
+  background-size: cover;
 }
 
 .formContainer {
-  background-color: rgb(255, 0, 0);
+  border-radius: 10px;
+  
+  background: rgba( 255, 255, 255, 0.45 );
+  backdrop-filter: blur( 10px );
+  -webkit-backdrop-filter: blur( 10px );
+
   padding-left: 2vw;
   padding-right: 2vw;
 
