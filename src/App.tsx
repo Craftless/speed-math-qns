@@ -12,6 +12,7 @@ import firebase from "firebase/compat/app";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { AuthContext, AuthContextProvider } from "./store/AuthContext";
 import { useLogout } from "./hooks/useLogout";
+import RegularHeader from "./components/RegularHeader";
 
 function App() {
   return <Root />;
@@ -50,10 +51,9 @@ function Root() {
 
   return (
     <div className="App">
-      {" "}
       {authIsReady && (
         <BrowserRouter>
-          <p>{String(!!user)}</p>
+          {/* <p>{String(!!user)}</p>
           <p>{user?.email}</p>
           <button
             onClick={() => {
@@ -61,7 +61,8 @@ function Root() {
             }}
           >
             Logout
-          </button>
+          </button> */}
+          <RegularHeader />
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={user ? <HomePage /> : <AuthPage />} />
