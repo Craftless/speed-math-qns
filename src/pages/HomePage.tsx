@@ -3,7 +3,7 @@ import "./HomePage.module.css";
 function HomePage() {
   return (
     <div>
-      <p>HOme Page</p>
+      <p>Home Page</p>
     </div>
   );
 }
