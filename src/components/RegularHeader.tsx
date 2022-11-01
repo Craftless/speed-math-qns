@@ -9,7 +9,7 @@ function RegularHeader() {
   return (
     <div className={classes.outerContainer}>
       <div className={classes.headerContainer}>
-        <p className={classes.header}>Speed Math</p>
+        <Link to="/" className={classes.header}>Speed Math</Link>
       </div>
       <div className={classes.linksContainer}>
         <ul>
