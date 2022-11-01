@@ -2,19 +2,19 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./RegularHeader.module.css";
 
-function RegularHeader() {
-
-
+function RegularHeader()
+{
   const [hasClicked, setHasClicked] = useState(false);
 
-
-  setHasClicked(true);
 
   return (
     <div>
       <div>
-        <p>{hasClicked}</p>
+        <p>{String(hasClicked)}</p>
       </div>
+      <button onClick={() => {
+        setHasClicked(cur => !cur)
+      }}>fsdjf,</button>
       <div>
         <div>
           <ul>
