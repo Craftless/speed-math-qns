@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
-import { projectStorage } from "../firebase/config";
+import { auth, projectStorage } from "../firebase/config";
 import {
   getCurrentUserDisplayNameFromUser,
   getCurrentUserProfilePictureFromUser,
@@ -20,7 +20,7 @@ export interface IAuthContext {
   getCurrentPfp: () => string | undefined;
   getCurrentDisplayName: () => string | null;
   authenticate: (user: firebase.User) => Promise<void>;
-  logout: (dispatch: any) => void;
+  logout: () => void;
 }
 
 export const AuthContext = createContext({
@@ -97,7 +97,7 @@ function AuthContextProvider({ children }: { children: React.ReactNode }) {
     return image;
   }
 
-  function logout(dispatch: any) {
+  function logout() {
     setToken("");
   }
 
