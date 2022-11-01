@@ -1,7 +1,10 @@
 // Import the functions you need from the SDKs you need
+import firebase from "firebase/compat/app";
 import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-import { getStorage } from "firebase/storage";
+import 'firebase/compat/auth';
+import "firebase/compat/storage";
+// import { getStorage } from "firebase/storage";
+import { initializeAuth } from "firebase/auth";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,8 +20,18 @@ const firebaseConfig = {
   appId: "1:433059418148:web:83eb81aeb3da3ecd6148b1"
 };
 
+
+let app;
+if (firebase.apps.length <= 0) app = firebase.initializeApp(firebaseConfig);
+else app = firebase.app();
+
+if (firebase.auth.length <= 0) {
+  initializeAuth(app);
+}
+
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
+const auth = firebase.auth()
 const projectDatabase = getDatabase();
-const projectStorage = getStorage();
-export { projectDatabase, projectStorage }
+const projectStorage = firebase.storage();
+export { auth, projectDatabase, projectStorage }
