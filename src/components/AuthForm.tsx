@@ -90,35 +90,47 @@ function AuthForm() {
         <h4 className={classes.loginFormSubTitle}>
           {isLogin ? "Log in" : "Sign up"}
         </h4>
-        {!isLogin && (
-          <InputField valueInput={displayNameRegular} label="Display Name" />
-        )}
-        <InputField valueInput={emailRegular} label="Email Address" />
-        {!isLogin && (
-          <InputField valueInput={emailConfirm} label="Confirm Email Address" />
-        )}
-        <InputField valueInput={passwordRegular} label="Password" isPassword />
-        {!isLogin && (
-          <InputField
-            valueInput={passwordConfirm}
-            label="Confirm Password"
-            isPassword
-          />
-        )}
-        <button
-          onClick={() => {
+        <form // Using a form for enter key behaviour
+          className={classes.actualForm}
+          onSubmit={(e) => {
+            e.preventDefault();
             if (formIsValid) {
               formSubmitHandler(emailRegular.value, passwordRegular.value);
             } else {
               setAllTouched();
             }
           }}
-          className={`${classes.signupButton} ${
-            !formIsValid ? classes.disabledBtn : ""
-          }`}
         >
-          {isLogin ? "Log in" : "Sign up"}
-        </button>
+          {!isLogin && (
+            <InputField valueInput={displayNameRegular} label="Display Name" />
+          )}
+          <InputField valueInput={emailRegular} label="Email Address" />
+          {!isLogin && (
+            <InputField
+              valueInput={emailConfirm}
+              label="Confirm Email Address"
+            />
+          )}
+          <InputField
+            valueInput={passwordRegular}
+            label="Password"
+            isPassword
+          />
+          {!isLogin && (
+            <InputField
+              valueInput={passwordConfirm}
+              label="Confirm Password"
+              isPassword
+            />
+          )}
+          <button
+            className={`${classes.signupButton} ${
+              !formIsValid ? classes.disabledBtn : ""
+            }`}
+          >
+            {isLogin ? "Log in" : "Sign up"}
+          </button>
+        </form>
         <button
           onClick={() => {
             switchAuthModeHandler();
