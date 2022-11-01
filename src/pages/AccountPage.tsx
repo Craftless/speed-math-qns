@@ -1,5 +1,10 @@
+import AccountView from "../components/AccountView";
+
 function AccountPage() {
-  return <div><p>Account Page</p></div>
+  return (
+    <AccountView />
+    // <p>jfsdiajpfos</p>
+  );
 }
 
 export default AccountPage;

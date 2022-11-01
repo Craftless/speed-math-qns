@@ -69,7 +69,7 @@ function AuthForm() {
         alert(`Error: ${error.code}: ${error.message}`);
         setWaitingForResponse(false);
       });
-      navigate("/")
+      navigate("/");
     } else {
       user = await createUser(email.trim(), password.trim(), (error) => {
         alert(`Error: ${error.code}: ${error.message}`);
@@ -85,9 +85,12 @@ function AuthForm() {
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
+        <h1 className={classes.loginFormTitle}>Speed Math!</h1>
+        <h4 className={classes.loginFormSubTitle}>Sign up</h4>
         <div className={classes.formRow}>
-          <label>Email Address</label>
+          <label className={classes.formLabel}>Email Address</label>
           <input
+            className={classes.formInput}
             value={enteredEmail}
             onBlur={emailInputTouchedHandler}
             onChange={emailValueChangeHandler}
@@ -95,8 +98,9 @@ function AuthForm() {
         </div>
         {!isLogin && (
           <div className={classes.formRow}>
-            <label>Confirm Email Address</label>
+            <label className={classes.formLabel}>Confirm Email Address</label>
             <input
+              className={classes.formInput}
               value={enteredConfirmEmail}
               onBlur={confirmEmailTouchedHandler}
               onChange={confirmEmailChangeHandler}
@@ -104,8 +108,9 @@ function AuthForm() {
           </div>
         )}
         <div className={classes.formRow}>
-          <label>Password</label>
+          <label className={classes.formLabel}>Password</label>
           <input
+            className={classes.formInput}
             value={enteredPassword}
             onBlur={passwordInputTouchedHandler}
             onChange={passwordValueChangeHandler}
@@ -113,8 +118,9 @@ function AuthForm() {
         </div>
         {!isLogin && (
           <div className={classes.formRow}>
-            <label>Confirm Password</label>
+            <label className={classes.formLabel}>Confirm Password</label>
             <input
+              className={classes.formInput}
               value={enteredConfirmPassword}
               onBlur={confirmPasswordTouchedHandler}
               onChange={confirmPasswordChangeHandler}
@@ -127,6 +133,7 @@ function AuthForm() {
               formSubmitHandler(enteredEmail, enteredPassword);
             }
           }}
+          className={classes.signupButton}
         >
           {isLogin ? "Log in" : "Sign up"}
         </button>
@@ -137,9 +144,13 @@ function AuthForm() {
         >
           {isLogin ? "Sign up instead" : "Log in instead"}
         </button>
-        <button onClick={() => {
-          alert(auth.currentUser?.email);
-        }}>CLick</button>
+        <button
+          onClick={() => {
+            alert(auth.currentUser?.email);
+          }}
+        >
+          CLick
+        </button>
       </div>
     </div>
   );
