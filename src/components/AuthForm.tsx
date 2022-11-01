@@ -88,6 +88,7 @@ function AuthForm() {
           <label>Email</label>
           <input value={enteredEmail} onBlur={emailInputTouchedHandler} onChange={emailValueChangeHandler} />
           {!isLogin && <input value={enteredConfirmEmail} onBlur={confirmEmailTouchedHandler} onChange={confirmEmailChangeHandler} />}
+          <br></br>
           <label>Password</label>
           <input value={enteredPassword} onBlur={passwordInputTouchedHandler} onChange={passwordValueChangeHandler} />
           {!isLogin && <input value={enteredConfirmPassword} onBlur={confirmPasswordTouchedHandler} onChange={confirmPasswordChangeHandler} />}

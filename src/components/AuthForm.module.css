@@ -7,6 +7,10 @@
 }
 
 .formContainer {
-  background-color: red;
-  padding: 16
+  background-color: rgb(255, 0, 0);
+  padding-left: 2vw;
+  padding-right: 2vw;
+
+  padding-top: 5vh;
+  padding-bottom: 5vh;
 }
