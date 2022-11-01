@@ -1,4 +1,10 @@
 body {
-  background-colour: white
+    background-color: white;
+
 }
 
+div {
+    width: 100px;
+    text-align: center;
+    text-colour: blue
+}

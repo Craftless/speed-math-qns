@@ -2,9 +2,14 @@ import "./HomePage.module.css";
 
 function HomePage() {
   return (
-    <div>
-      <p>Home Page</p>
-    </div>
+		<!-- This HTML is horrible sorry -->
+    <div class="NavBar">
+  		<span>Home</span>
+  		&nbsp;
+  		<a href="/login">Login</a>
+  		&nbsp;
+  		<a href="/login">Sign Up!</a>
+		</div>
   );
 }
 
