@@ -7,6 +7,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import AccountPage from "./pages/AccountPage";
+import HomePage from "./pages/HomePage";
+import firebase from "firebase/compat/app";
 
 function App() {
   return (
@@ -21,19 +23,23 @@ function Root() {
   const [waitingForEvent, setWaitingForEvent] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        authCtx
-          .authenticate(user)
-          .then((token) => {
-            setWaitingForEvent(false);
-          })
-          .catch((error) => alert(error));
-      } else {
-        authCtx.logout();
-        setWaitingForEvent(false);
-      }
-    });
+    let unsubscribe = () => {};
+    async function init() {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      unsubscribe = auth.onAuthStateChanged((user) => {
+        if (user) {
+          alert(user.email);
+          authCtx
+            .authenticate(user)
+            .then(() => setWaitingForEvent(false))
+            .catch((error) => alert(error));
+        } else {
+          authCtx.logout();
+          setWaitingForEvent(false);
+        }
+      });
+    }
+    init();
     return () => {
       unsubscribe();
     };
@@ -41,12 +47,26 @@ function Root() {
 
   return (
     <div className="App">
+      {/* {auth.currentUser && (
+        <Routes>
+          <Route path="*" element={<HomePage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/account" element={<AccountPage />} />
+        </Routes>
+      )}
+      {!auth.currentUser && (
+        <Routes>
+          <Route
+            path="*"
+            element={
+              auth.currentUser ? <AccountPage /> : <Navigate to="/auth" />
+            }
+          /> */}
       <Routes>
-        <Route path="/" element={authCtx.isLoggedIn ? <AccountPage /> : <Navigate to="/auth" />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/account" element={<AccountPage />} />
+        <Route path="*" element={<HomePage />} />
       </Routes>
+      {/* )} */}
     </div>
   );
 }

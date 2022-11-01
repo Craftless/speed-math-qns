@@ -8,8 +8,9 @@ import {
 } from "../util/auth";
 import { ref } from "firebase/storage";
 
+let logoutTimer;
+
 export interface IAuthContext {
-  token: string;
   user: firebase.User | undefined;
   isLoggedIn: boolean;
   change: string;
@@ -24,7 +25,6 @@ export interface IAuthContext {
 }
 
 export const AuthContext = createContext({
-  token: "",
   isLoggedIn: false,
   change: "",
   updatePfp: async (uri: string) => {},
@@ -34,18 +34,18 @@ export const AuthContext = createContext({
 } as IAuthContext);
 
 function AuthContextProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState("");
+
   const [user, setUser] = useState<firebase.User>();
   const [change, setChange] = useState("");
   const [pfpCacheKey, setPfpCacheKey] = useState("");
+
+
 
   useEffect(() => {
     console.log(`KEY: ${pfpCacheKey}`);
   }, [pfpCacheKey]);
 
   async function authenticate(user: firebase.User) {
-    const token = await user.getIdToken();
-    setToken(token);
     setUser(user);
     console.log("Authenticated");
   }
@@ -98,16 +98,16 @@ function AuthContextProvider({ children }: { children: React.ReactNode }) {
   }
 
   function logout() {
-    setToken("");
+    setUser(undefined);
+    alert("Logging out")
   }
 
   return (
     <AuthContext.Provider
       value={{
-        token,
         user,
         change,
-        isLoggedIn: !!token,
+        isLoggedIn: !!user,
         pfpCacheKey,
         updatePfp: updateUserProfilePicture,
         updatePfpAvatar: updateUserProfilePictureWithAvatar,

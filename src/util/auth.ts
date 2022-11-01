@@ -40,13 +40,32 @@ export async function logIn(
   password: string,
   onError: (error: any) => void
 ) {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      return user;
-    })
+  // firebase
+  //   .auth()
+  //   .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  //   .then(async () => {
+  //     // Existing and future Auth states are now persisted in the current
+  //     // session only. Closing the window would clear any existing state even
+  //     // if a user forgets to sign out.
+  //     // ...
+  //     // New sign-in will be persisted with session persistence.
+  //     return await signInWithEmailAndPassword(auth, email, password)
+  //       .then((userCredential) => {
+  //         const user = userCredential.user;
+  //         alert(user.email);
+  //         return user;
+  //       })
+  //       .catch((error) => {
+  //         onError(error);
+  //       });
+
+  return firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
     .catch((error) => {
-      onError(error);
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
     });
 }
 
@@ -116,6 +135,7 @@ export async function updateUserProfile(
     });
   }
 }
+
 
 // export function CachedProfilePicture(props: any) {
 //   const authCtx = useContext(AuthContext);

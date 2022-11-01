@@ -1,13 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase/config";
 import useInput from "../hooks/use-input";
 import { AuthContext } from "../store/auth-context";
 import { createUser, logIn } from "../util/auth";
-import classes from "./AuthForm.module.css"
+import classes from "./AuthForm.module.css";
 
 function AuthForm() {
   const authCtx = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(false);
   const [waitingForResponse, setWaitingForResponse] = useState(false);
+  const navigate = useNavigate();
+
   const {
     value: enteredEmail,
     hasError: emailHasError,
@@ -42,7 +46,6 @@ function AuthForm() {
     "Please provide a password longer than 6 characters."
   );
 
-
   const formIsValid =
     emailIsValid &&
     (confirmEmailIsValid || isLogin) &&
@@ -66,6 +69,7 @@ function AuthForm() {
         alert(`Error: ${error.code}: ${error.message}`);
         setWaitingForResponse(false);
       });
+      navigate("/")
     } else {
       user = await createUser(email.trim(), password.trim(), (error) => {
         alert(`Error: ${error.code}: ${error.message}`);
@@ -81,18 +85,61 @@ function AuthForm() {
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          formSubmitHandler(enteredEmail, enteredPassword);
-        }}>
-          <label>Email</label>
-          <input value={enteredEmail} onBlur={emailInputTouchedHandler} onChange={emailValueChangeHandler} />
-          {!isLogin && <input value={enteredConfirmEmail} onBlur={confirmEmailTouchedHandler} onChange={confirmEmailChangeHandler} />}
+        <div className={classes.formRow}>
+          <label>Email Address</label>
+          <input
+            value={enteredEmail}
+            onBlur={emailInputTouchedHandler}
+            onChange={emailValueChangeHandler}
+          />
+        </div>
+        {!isLogin && (
+          <div className={classes.formRow}>
+            <label>Confirm Email Address</label>
+            <input
+              value={enteredConfirmEmail}
+              onBlur={confirmEmailTouchedHandler}
+              onChange={confirmEmailChangeHandler}
+            />
+          </div>
+        )}
+        <div className={classes.formRow}>
           <label>Password</label>
-          <input value={enteredPassword} onBlur={passwordInputTouchedHandler} onChange={passwordValueChangeHandler} />
-          {!isLogin && <input value={enteredConfirmPassword} onBlur={confirmPasswordTouchedHandler} onChange={confirmPasswordChangeHandler} />}
-          <button>{isLogin ? "Log in" : "Sign up"}</button>
-        </form>
+          <input
+            value={enteredPassword}
+            onBlur={passwordInputTouchedHandler}
+            onChange={passwordValueChangeHandler}
+          />
+        </div>
+        {!isLogin && (
+          <div className={classes.formRow}>
+            <label>Confirm Password</label>
+            <input
+              value={enteredConfirmPassword}
+              onBlur={confirmPasswordTouchedHandler}
+              onChange={confirmPasswordChangeHandler}
+            />
+          </div>
+        )}
+        <button
+          onClick={() => {
+            if (formIsValid) {
+              formSubmitHandler(enteredEmail, enteredPassword);
+            }
+          }}
+        >
+          {isLogin ? "Log in" : "Sign up"}
+        </button>
+        <button
+          onClick={() => {
+            switchAuthModeHandler();
+          }}
+        >
+          {isLogin ? "Sign up instead" : "Log in instead"}
+        </button>
+        <button onClick={() => {
+          alert(auth.currentUser?.email);
+        }}>CLick</button>
       </div>
     </div>
   );
