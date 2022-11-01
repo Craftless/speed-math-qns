@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { auth } from '../firebase/config'
+import { auth, projectFirestore } from '../firebase/config'
 import { useAuthContext } from './useAuthContext'
 
 export const useSignup = () => {
@@ -8,7 +8,7 @@ export const useSignup = () => {
   const [isPending, setIsPending] = useState(false)
   const { dispatch } = useAuthContext()
 
-  const signup = async (email: string, password: string) => {
+  const signup = async (email: string, password: string, displayName: string) => {
     setError(null)
     setIsPending(true)
   
@@ -16,12 +16,17 @@ export const useSignup = () => {
       // signup
       const res = await auth.createUserWithEmailAndPassword(email, password)
 
-      if (!res) {
+      if (!res || !res.user) {
         throw new Error('Could not complete signup')
       }
 
       // add display name to user
-      // await res.user.updateProfile({ displayName })
+      await res.user.updateProfile({ displayName })
+
+      await projectFirestore.collection('users').doc(res.user.uid).set({
+        displayName
+      });
+
 
       // dispatch login action
       dispatch({ type: 'LOGIN', payload: res.user })

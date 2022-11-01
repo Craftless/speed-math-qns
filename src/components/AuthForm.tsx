@@ -7,6 +7,7 @@ import { useSignup } from "../hooks/useSignup";
 import { AuthContext } from "../store/AuthContext";
 import { createUser, logIn } from "../util/auth";
 import classes from "./AuthForm.module.css";
+import InputField from "./InputField";
 
 function AuthForm() {
   const authCtx = useContext(AuthContext);
@@ -15,62 +16,41 @@ function AuthForm() {
   const navigate = useNavigate();
 
   const {
-    value: enteredEmail,
-    hasError: emailHasError,
-    isValid: emailIsValid,
+    regular: emailRegular,
+    confirm: emailConfirm,
     reset: resetEmail,
-    inputTouchedHandler: emailInputTouchedHandler,
-    valueChangeHandler: emailValueChangeHandler,
-    enteredConfirmValue: enteredConfirmEmail,
-    confirmFieldIsValid: confirmEmailIsValid,
-    confirmFieldHasError: confirmEmailHasError,
-    confirmValueChangeHandler: confirmEmailChangeHandler,
-    confirmInputTouchedHandler: confirmEmailTouchedHandler,
   } = useInput(
     (val) => val.includes("@"),
     "Please provide a valid email address."
   );
 
   const {
-    value: enteredPassword,
-    hasError: passwordHasError,
-    isValid: passwordIsValid,
+    regular: passwordRegular,
+    confirm: passwordConfirm,
     reset: resetPassword,
-    inputTouchedHandler: passwordInputTouchedHandler,
-    valueChangeHandler: passwordValueChangeHandler,
-    enteredConfirmValue: enteredConfirmPassword,
-    confirmFieldIsValid: confirmPasswordIsValid,
-    confirmFieldHasError: confirmPasswordHasError,
-    confirmValueChangeHandler: confirmPasswordChangeHandler,
-    confirmInputTouchedHandler: confirmPasswordTouchedHandler,
   } = useInput(
     (val) => val.trim().length > 6,
     "Please provide a password longer than 6 characters."
   );
 
-  const {
-    value: enteredDisplayName,
-    hasError: displayNameHasError,
-    isValid: displayNameIsValid,
-    inputTouchedHandler: displayNameInputTouchedHandler,
-    valueChangeHandler: displayNameValueChangeHandler,
-    reset: resetDisplayName,
-  } = useInput(
+  const { regular: displayNameRegular, reset: resetDisplayName } = useInput(
     (val) => val.trim().length > 2,
-    "Please provide a Display Name longer than 2 characters."
+    "Please provide a display name longer than 2 characters."
   );
 
   const formIsValid =
-    emailIsValid &&
-    (confirmEmailIsValid || isLogin) &&
-    passwordIsValid &&
-    (confirmPasswordIsValid || isLogin);
+    emailRegular.isValid &&
+    (emailConfirm.isValid || isLogin) &&
+    passwordRegular.isValid &&
+    (passwordConfirm.isValid || isLogin) &&
+    (displayNameRegular.isValid || isLogin);
 
   function setAllTouched() {
-    emailInputTouchedHandler();
-    confirmEmailTouchedHandler();
-    passwordInputTouchedHandler();
-    confirmPasswordTouchedHandler();
+    emailRegular.inputTouchedHandler();
+    emailConfirm.inputTouchedHandler();
+    passwordRegular.inputTouchedHandler();
+    passwordConfirm.inputTouchedHandler();
+    displayNameRegular.inputTouchedHandler();
   }
 
   const { login, isPending: loginIsPending, error: loginError } = useLogin();
@@ -89,7 +69,11 @@ function AuthForm() {
       user = await login(email.trim(), password.trim());
       navigate("/");
     } else {
-      user = await signup(email.trim(), password.trim());
+      user = await signup(
+        email.trim(),
+        password.trim(),
+        displayNameRegular.value
+      );
     }
   }
 
@@ -103,56 +87,35 @@ function AuthForm() {
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
         <h1 className={classes.loginFormTitle}>Speed Math!</h1>
-        <h4 className={classes.loginFormSubTitle}>{isLogin ? "Log in" : "Sign up"}</h4>
-        <div className={classes.formRow}>
-          <label className={classes.formLabel}>Email Address</label>
-          <input
-            className={`${classes.formInput} ${emailHasError ? classes.error : ''}`}
-            value={enteredEmail}
-            onBlur={emailInputTouchedHandler}
-            onChange={emailValueChangeHandler}
-          />
-        </div>
+        <h4 className={classes.loginFormSubTitle}>
+          {isLogin ? "Log in" : "Sign up"}
+        </h4>
         {!isLogin && (
-          <div className={classes.formRow}>
-            <label className={classes.formLabel}>Confirm Email Address</label>
-            <input
-              className={`${classes.formInput} ${confirmEmailHasError ? classes.error : ''}`}
-              value={enteredConfirmEmail}
-              onBlur={confirmEmailTouchedHandler}
-              onChange={confirmEmailChangeHandler}
-            />
-          </div>
+          <InputField valueInput={displayNameRegular} label="Display Name" />
         )}
-        <div className={classes.formRow}>
-          <label className={classes.formLabel}>Password</label>
-          <input
-            className={`${classes.formInput} ${passwordHasError ? classes.error : ''}`}
-            value={enteredPassword}
-            onBlur={passwordInputTouchedHandler}
-            onChange={passwordValueChangeHandler}
-            type="password"
-          />
-        </div>
+        <InputField valueInput={emailRegular} label="Email Address" />
         {!isLogin && (
-          <div className={classes.formRow}>
-            <label className={classes.formLabel}>Confirm Password</label>
-            <input
-              className={`${classes.formInput} ${confirmPasswordHasError ? classes.error : ''}`}
-              value={enteredConfirmPassword}
-              onBlur={confirmPasswordTouchedHandler}
-              onChange={confirmPasswordChangeHandler}
-              type="password"
-            />
-          </div>
+          <InputField valueInput={emailConfirm} label="Confirm Email Address" />
+        )}
+        <InputField valueInput={passwordRegular} label="Password" isPassword />
+        {!isLogin && (
+          <InputField
+            valueInput={passwordConfirm}
+            label="Confirm Password"
+            isPassword
+          />
         )}
         <button
           onClick={() => {
             if (formIsValid) {
-              formSubmitHandler(enteredEmail, enteredPassword);
+              formSubmitHandler(emailRegular.value, passwordRegular.value);
+            } else {
+              setAllTouched();
             }
           }}
-          className={classes.signupButton}
+          className={`${classes.signupButton} ${
+            !formIsValid ? classes.disabledBtn : ""
+          }`}
         >
           {isLogin ? "Log in" : "Sign up"}
         </button>

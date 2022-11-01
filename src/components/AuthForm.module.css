@@ -25,7 +25,7 @@
 }
 
 .formContainer {
-  border-radius: 10px;
+  border-radius: 25px;
   display: flex;
   overflow: auto;
   flex-direction: column;
@@ -68,17 +68,6 @@
   outline: 0;
 }
 
-.signupButton {
-  margin: 8px 20px;
-  padding: 16px 100px;
-
-  font-size: 1.2rem;
-  color: rgb(255, 255, 255);
-
-  border-radius: 16px;
-  border-style: none;
-  background-image: linear-gradient(100deg, rgb(0, 102, 255), rgb(0, 217, 255));
-}
 
 .formRow {
   display: flex;
@@ -90,6 +79,32 @@
   width: 90%
 }
 
+.wordsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wordsContainer p {
+  color: red;
+}
+
+
+
+.signupButton {
+  margin: 8px 20px;
+  padding: 16px 100px;
+
+  font-size: 1.2rem;
+  color: rgb(255, 255, 255);
+
+  border: none;
+  border-radius: 16px;
+  background-image: linear-gradient(100deg, rgb(0, 102, 255), rgb(0, 217, 255));
+
+  filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
+  cursor: pointer;
+}
+
 .switchAuthModeBtn {
   background: none;
   border:none;
@@ -99,7 +114,8 @@
   color: #317cc8;
 }
 
-.error {
-  border-color: red;
-  background-color: rgb(255, 162, 162);
+.disabledBtn {
+  background-image: linear-gradient(100deg, rgb(79, 79, 79), rgb(138, 138, 138));
+  /* background: gray; */
+  color: rgb(0, 0, 0);
 }

@@ -1,4 +1,10 @@
-import { ChangeEvent, ChangeEventHandler, FocusEvent, FocusEventHandler, useState } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FocusEvent,
+  FocusEventHandler,
+  useState,
+} from "react";
 
 function useInput(
   validationFunc: (value: string) => boolean,
@@ -13,17 +19,19 @@ function useInput(
   const valueIsValid = validationFunc(enteredValue);
   const hasError = !valueIsValid && isTouched;
 
-  const confirmFieldIsValid =
-    enteredValue === enteredConfirmValue && valueIsValid;
+  const fieldsMatch = enteredValue === enteredConfirmValue;
+  const confirmFieldIsValid = fieldsMatch && valueIsValid;
   const confirmFieldHasError = !confirmFieldIsValid && confirmIsTouched;
+
+  const finalMessage = !fieldsMatch
+    ? "Please ensure the fields match"
+    : invalidMessage;
 
   function valueChangeHandler(event: ChangeEvent<HTMLInputElement>) {
     setEnteredValue(event.target.value);
   }
 
-  function inputTouchedHandler(
-    event?: FocusEvent<HTMLInputElement>
-  ) {
+  function inputTouchedHandler(event?: FocusEvent<HTMLInputElement>) {
     setIsTouched(true);
   }
 
@@ -31,9 +39,7 @@ function useInput(
     setEnteredConfirmValue(event.target.value);
   }
 
-  function confirmInputTouchedHandler(
-    event?: FocusEvent<HTMLInputElement>
-  ) {
+  function confirmInputTouchedHandler(event?: FocusEvent<HTMLInputElement>) {
     setConfirmIsTouched(true);
   }
 
@@ -45,17 +51,23 @@ function useInput(
   }
 
   return {
-    value: enteredValue,
-    isValid: valueIsValid,
-    hasError,
-    valueChangeHandler,
-    inputTouchedHandler,
+    regular: {
+      value: enteredValue,
+      isValid: valueIsValid,
+      hasError,
+      valueChangeHandler,
+      inputTouchedHandler,
+      finalMessage: invalidMessage,
+    },
+    confirm: {
+      value: enteredConfirmValue,
+      isValid: confirmFieldIsValid,
+      hasError: confirmFieldHasError,
+      valueChangeHandler: confirmValueChangeHandler,
+      inputTouchedHandler: confirmInputTouchedHandler,
+      finalMessage,
+    },
     reset,
-    enteredConfirmValue,
-    confirmFieldIsValid,
-    confirmFieldHasError,
-    confirmValueChangeHandler,
-    confirmInputTouchedHandler,
   };
 }
 
