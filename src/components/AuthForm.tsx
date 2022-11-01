@@ -81,18 +81,28 @@ function AuthForm() {
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
+
+        <h1 className={classes.loginFormTitle}>Speed Math!</h1>
+
+        <h4 className={classes.loginFormSubTitle}>Sign up</h4>
+
         <form onSubmit={(e) => {
           e.preventDefault();
           formSubmitHandler(enteredEmail, enteredPassword);
         }}>
-          <label>Email</label>
-          <input value={enteredEmail} onBlur={emailInputTouchedHandler} onChange={emailValueChangeHandler} />
-          {!isLogin && <input value={enteredConfirmEmail} onBlur={confirmEmailTouchedHandler} onChange={confirmEmailChangeHandler} />}
-          <br></br>
-          <label>Password</label>
-          <input value={enteredPassword} onBlur={passwordInputTouchedHandler} onChange={passwordValueChangeHandler} />
-          {!isLogin && <input value={enteredConfirmPassword} onBlur={confirmPasswordTouchedHandler} onChange={confirmPasswordChangeHandler} />}
-          <button>{isLogin ? "Log in" : "Sign up"}</button>
+          <label className={classes.formLabel}>Email</label>
+          <input className={classes.formInput} value={enteredEmail} onBlur={emailInputTouchedHandler} onChange={emailValueChangeHandler} placeholder="Enter email..." />
+          &nbsp;
+          {!isLogin && <input className={classes.formInput} value={enteredConfirmEmail} onBlur={confirmEmailTouchedHandler} onChange={confirmEmailChangeHandler} placeholder="Confirm email..." />}
+
+          <br />
+
+          <label className={classes.formLabel}>Password</label>
+          <input className={classes.formInput} value={enteredPassword} onBlur={passwordInputTouchedHandler} onChange={passwordValueChangeHandler} placeholder="Enter password..." />
+          &nbsp;
+          {!isLogin && <input className={classes.formInput} value={enteredConfirmPassword} onBlur={confirmPasswordTouchedHandler} onChange={confirmPasswordChangeHandler} placeholder="Confirm email..." />}
+          <br />
+          <button className={classes.signupButton}>{isLogin ? "Log in" : "Sign up"}</button>
         </form>
       </div>
     </div>
