@@ -3,6 +3,9 @@ import "./App.css";
 import { auth } from "./firebase/config";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import ReactLoading from 'react-loading';
+import { Route, Routes } from "react-router-dom";
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -37,11 +40,12 @@ function Root() {
 
   return waitingForEvent ? (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
+      <Routes>
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/signup" />
+        <Route path="/signup" />
+      </Routes>
     </div>
   ) : (
     <ReactLoading />
