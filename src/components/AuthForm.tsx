@@ -48,6 +48,18 @@ function AuthForm() {
     "Please provide a password longer than 6 characters."
   );
 
+  const {
+    value: enteredDisplayName,
+    hasError: displayNameHasError,
+    isValid: displayNameIsValid,
+    inputTouchedHandler: displayNameInputTouchedHandler,
+    valueChangeHandler: displayNameValueChangeHandler,
+    reset: resetDisplayName,
+  } = useInput(
+    (val) => val.trim().length > 2,
+    "Please provide a Display Name longer than 2 characters."
+  );
+
   const formIsValid =
     emailIsValid &&
     (confirmEmailIsValid || isLogin) &&
@@ -83,17 +95,19 @@ function AuthForm() {
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
+    resetEmail();
+    resetPassword();
   };
 
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
         <h1 className={classes.loginFormTitle}>Speed Math!</h1>
-        <h4 className={classes.loginFormSubTitle}>Sign up</h4>
+        <h4 className={classes.loginFormSubTitle}>{isLogin ? "Log in" : "Sign up"}</h4>
         <div className={classes.formRow}>
           <label className={classes.formLabel}>Email Address</label>
           <input
-            className={classes.formInput}
+            className={`${classes.formInput} ${emailHasError ? classes.error : ''}`}
             value={enteredEmail}
             onBlur={emailInputTouchedHandler}
             onChange={emailValueChangeHandler}
@@ -103,7 +117,7 @@ function AuthForm() {
           <div className={classes.formRow}>
             <label className={classes.formLabel}>Confirm Email Address</label>
             <input
-              className={classes.formInput}
+              className={`${classes.formInput} ${confirmEmailHasError ? classes.error : ''}`}
               value={enteredConfirmEmail}
               onBlur={confirmEmailTouchedHandler}
               onChange={confirmEmailChangeHandler}
@@ -113,20 +127,22 @@ function AuthForm() {
         <div className={classes.formRow}>
           <label className={classes.formLabel}>Password</label>
           <input
-            className={classes.formInput}
+            className={`${classes.formInput} ${passwordHasError ? classes.error : ''}`}
             value={enteredPassword}
             onBlur={passwordInputTouchedHandler}
             onChange={passwordValueChangeHandler}
+            type="password"
           />
         </div>
         {!isLogin && (
           <div className={classes.formRow}>
             <label className={classes.formLabel}>Confirm Password</label>
             <input
-              className={classes.formInput}
+              className={`${classes.formInput} ${confirmPasswordHasError ? classes.error : ''}`}
               value={enteredConfirmPassword}
               onBlur={confirmPasswordTouchedHandler}
               onChange={confirmPasswordChangeHandler}
+              type="password"
             />
           </div>
         )}
@@ -147,13 +163,6 @@ function AuthForm() {
           className={classes.switchAuthModeBtn}
         >
           {isLogin ? "Sign up instead" : "Log in instead"}
-        </button>
-        <button
-          onClick={() => {
-            alert(auth.currentUser?.email);
-          }}
-        >
-          CLick
         </button>
       </div>
     </div>

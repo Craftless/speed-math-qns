@@ -13,6 +13,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import { AuthContext, AuthContextProvider } from "./store/AuthContext";
 import { useLogout } from "./hooks/useLogout";
 import RegularHeader from "./components/RegularHeader";
+import QuizPage from "./pages/QuizPage";
 
 function App() {
   return <Root />;
@@ -47,7 +48,6 @@ function Root() {
   //   };
   // }, []);
   const { user, authIsReady } = useAuthContext();
-  const { logout, error } = useLogout();
 
   return (
     <div className="App">
@@ -62,12 +62,13 @@ function Root() {
           >
             Logout
           </button> */}
-          <RegularHeader />
+          {user && <RegularHeader />}
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={user ? <HomePage /> : <AuthPage />} />
             {user && <Route path="/leaderboard" element={<LeaderboardPage />} />}
             {user && <Route path="/account" element={<AccountPage />} />}
+            {user && <Route path="/quiz" element={<QuizPage />} />}
           </Routes>
         </BrowserRouter>
       )}

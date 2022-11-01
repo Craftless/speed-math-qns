@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 import classes from "./RegularHeader.module.css";
 
 function RegularHeader() {
   const [hasClicked, setHasClicked] = useState(false);
-
+  const { logout, error } = useLogout();
   return (
     <div className={classes.outerContainer}>
       <div className={classes.headerContainer}>
@@ -24,7 +25,13 @@ function RegularHeader() {
             <Link to="/account">Account</Link>
           </li>
           <li>
-            <Link to="/logout">Logout</Link>
+            <button
+              onClick={() => {
+                logout();
+              }}
+            >
+              Logout
+            </button>
           </li>
         </ul>
       </div>

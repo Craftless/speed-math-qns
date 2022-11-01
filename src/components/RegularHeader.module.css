@@ -9,7 +9,18 @@
   list-style-type: none;
   /* background-color: rgb(204, 127, 28); */
   max-width: 960px;
+}
+
+.outerContainer ul * {
   font-size: 1.2rem;
+  border: none;
+  background: none;
+  cursor: help;
+}
+
+.outerContainer ul *:hover {
+  color: rgb(115, 115, 115);
+  cursor: pointer;
 }
 
 .headerContainer {
