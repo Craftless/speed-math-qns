@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import QuizComponent from "../components/QuizComponent";
+import QuizHeader from "../components/QuizHeader";
 import { generateQuestion, operators, randomNumberRange } from "../util/math";
+import classes from "./QuizPage.module.css";
 
 function QuizPage() {
   const location = useLocation();
@@ -10,6 +12,9 @@ function QuizPage() {
   const [gameReady, setGameReady] = useState(false);
   const [currentQC, setCurrentQC] = useState(null! as JSX.Element);
   const [qnNumber, setQnNumber] = useState(1);
+  const [numCorrect, setNumCorrect] = useState(0);
+  const [numWrong, setNumWrong] = useState(0);
+  const [numSkipped, setNumSkipped] = useState(0);
 
   function incrementQnNumber() {
     setQnNumber((cur) => cur + 1);
@@ -25,9 +30,14 @@ function QuizPage() {
     setCurrentQC(generateQuizComponent());
   }, []);
 
-  function answerChosenHandler(isCorrect: boolean) {
-    if (isCorrect) {
-    } else {
+  function answerChosenHandler(type: "correct" | "wrong" | "skipped") {
+    switch (type) {
+      case "correct":
+        break;
+      case "wrong":
+        break;
+      case "skipped":
+        break;
     }
     incrementQnNumber();
     setCurrentQC(generateQuizComponent());
@@ -46,16 +56,15 @@ function QuizPage() {
       tries++;
       if (tries > 10) break;
     }
-    return (
-      <QuizComponent
-        qn={qn}
-        ans={answer}
-        onOver={answerChosenHandler}
-      />
-    );
+    return <QuizComponent qn={qn} ans={answer} onOver={answerChosenHandler} />;
   }
 
-  return <p>{currentQC}</p>;
+  return (
+    <>
+      <QuizHeader type={"timed"} qnNumber={qnNumber} timeRemaining={5} onEnd={() => {}} maxQnNumber={10} />
+      <div className={classes.outerContainer}>{currentQC}</div>
+    </>
+  );
 }
 
 export default QuizPage;

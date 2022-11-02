@@ -11,7 +11,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </AuthContextProvider>
   </React.StrictMode>
 );

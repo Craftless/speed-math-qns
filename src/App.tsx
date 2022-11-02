@@ -3,7 +3,13 @@ import "./App.css";
 import { auth } from "./firebase/config";
 // import AuthContextProvider, { AuthContext } from "./store/AuthContext";
 import ReactLoading from "react-loading";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import AccountPage from "./pages/AccountPage";
@@ -14,6 +20,7 @@ import { AuthContext, AuthContextProvider } from "./store/AuthContext";
 import { useLogout } from "./hooks/useLogout";
 import RegularHeader from "./components/RegularHeader";
 import QuizPage from "./pages/QuizPage";
+import QuizHeader from "./components/QuizHeader";
 
 function App() {
   return <Root />;
@@ -50,20 +57,25 @@ function Root() {
   }, []);
   */
   const { user, authIsReady } = useAuthContext();
+  const location = useLocation();
 
   return (
     <div className="App">
       {authIsReady && (
-        <BrowserRouter>
-          {user && <RegularHeader />}
+        <>
+          {location.pathname != "/quiz" && user && <RegularHeader />}
+          {/* {location.pathname == "/quiz" && <QuizHeader />} */}
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={user ? <HomePage /> : <AuthPage />} />
-            {user && <Route path="/leaderboard" element={<LeaderboardPage />} />}
+            {user && (
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
+            )}
             {user && <Route path="/account" element={<AccountPage />} />}
             {user && <Route path="/quiz" element={<QuizPage />} />}
+            {user && <Route path="/chooseQuizType" element={<QuizPage />} />}
           </Routes>
-        </BrowserRouter>
+        </>
       )}
     </div>
   );
