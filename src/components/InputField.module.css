@@ -1,14 +1,13 @@
-
 .formLabel {
   font-size: 1rem;
   color: rgb(0, 0, 0);
-  margin-right: 1.25vw;
   align-self: flex-start;
+  margin-bottom: 3px;
 }
 
 .formInput {
   font-size: 1.2rem;
-  min-height: 40px;
+  min-height: 30px;
   padding: 4px 12px;
   /* background-color: blue; */
   border: 2px solid gray;
