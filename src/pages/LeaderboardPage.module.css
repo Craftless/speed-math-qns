@@ -1,2 +1,17 @@
-.mainContainer {
+.leaderboardLabel {
+  margin-top: 10px;
+}
+
+.leaderboardContainer {
+	width: 75%;
+	height: auto;
+
+  border-radius: 20px;
+
+	background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  margin: auto;
+  margin-top: 20px;
 }
