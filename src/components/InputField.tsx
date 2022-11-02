@@ -1,8 +1,5 @@
 import {
-  ChangeEvent,
-  ChangeEventHandler,
-  FocusEvent,
-  FocusEventHandler,
+  ChangeEventHandler, FocusEventHandler
 } from "react";
 import classes from "./InputField.module.css";
 

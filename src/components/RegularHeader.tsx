@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import classes from "./SharedHeader.module.css";
 
 function RegularHeader() {
-  const { logout, error } = useLogout();
+  const { logout } = useLogout();
   return (
     <div className={`${classes.outerContainer} ${classes.outerContainerHover}`}>
       <div className={classes.headerContainer}>

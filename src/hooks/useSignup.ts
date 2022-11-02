@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { auth, projectDatabase, projectFirestore } from "../firebase/config";
-import { useAuthContext } from "./useAuthContext";
 import firebase from "firebase/compat/app";
+import { useEffect, useState } from "react";
+import { auth, projectFirestore } from "../firebase/config";
+import { useAuthContext } from "./useAuthContext";
 
 export const useSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false);
@@ -35,9 +35,20 @@ export const useSignup = () => {
       await projectFirestore
         .collection("stats")
         .doc("homePageStats")
-        .update({
-          totalUsers: firebase.firestore.FieldValue.increment(1),
-        });
+        .set(
+          {
+            totalUsers: firebase.firestore.FieldValue.increment(1),
+            totalGamesPlayed: firebase.firestore.FieldValue.increment(0),
+          },
+          { merge: true }
+        );
+      await projectFirestore.collection("userData").doc(res.user.uid).set({
+        totalGamesPlayed: 0,
+        totalScore: 0,
+        totalCorrect: 0,
+        totalSkipped: 0,
+        totalWrong: 0,
+      });
 
       // dispatch login action
       dispatch({ type: "LOGIN", payload: res.user });
@@ -47,6 +58,7 @@ export const useSignup = () => {
         setError(null);
       }
     } catch (err: any) {
+      alert(err);
       if (!isCancelled) {
         setError(err.message);
         setIsPending(false);

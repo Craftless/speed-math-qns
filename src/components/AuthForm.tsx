@@ -1,19 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase/config";
 import useInput from "../hooks/use-input";
 import { useLogin } from "../hooks/useLogin";
 import { useSignup } from "../hooks/useSignup";
-import { AuthContext } from "../store/AuthContext";
-import { createUser, logIn } from "../util/auth";
 import classes from "./AuthForm.module.css";
 import InputField from "./InputField";
 import LoadingSpinner from "./LoadingSpinner";
 
 function AuthForm() {
-  const authCtx = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(false);
-  const [waitingForResponse, setWaitingForResponse] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -64,17 +59,11 @@ function AuthForm() {
   async function formSubmitHandler(email: string, password: string) {
     resetEmail();
     resetPassword();
-    let user;
-    setWaitingForResponse(true);
     if (isLogin) {
-      user = await login(email.trim(), password.trim());
+      await login(email.trim(), password.trim());
       navigate("/");
     } else {
-      user = await signup(
-        email.trim(),
-        password.trim(),
-        displayNameRegular.value
-      );
+      await signup(email.trim(), password.trim(), displayNameRegular.value);
     }
   }
 
@@ -87,7 +76,7 @@ function AuthForm() {
 
   return loginIsPending || signupIsPending ? (
     <div className={classes.outerContainer}>
-      <LoadingSpinner height={200} width={200} borderWidth={10}/>
+      <LoadingSpinner height={200} width={200} borderWidth={10} />
     </div>
   ) : (
     <div className={classes.outerContainer}>
@@ -145,6 +134,8 @@ function AuthForm() {
         >
           {isLogin ? "Sign up instead" : "Log in instead"}
         </button>
+        {loginError && <p>{loginError}</p>}
+        {signupError && <p>{signupError}</p>}
       </div>
     </div>
   );

@@ -1,10 +1,9 @@
 // Import the functions you need from the SDKs you need
 import firebase from "firebase/compat/app";
-import { initializeApp } from "firebase/app";
 import "firebase/compat/auth";
-import "firebase/compat/storage";
 import "firebase/compat/database";
 import "firebase/compat/firestore";
+import "firebase/compat/storage";
 // import { getStorage } from "firebase/storage";
 
 

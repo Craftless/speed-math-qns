@@ -1,9 +1,5 @@
 import {
-  ChangeEvent,
-  ChangeEventHandler,
-  FocusEvent,
-  FocusEventHandler,
-  useState,
+  ChangeEvent, FocusEvent, useState
 } from "react";
 
 function useInput(

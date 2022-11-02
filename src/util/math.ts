@@ -15,10 +15,11 @@ function getRandomInt(min: number, max: number) {
 
 export function generateQuestion(digits: number) {
   const sign = operators[Math.floor(Math.random() * operators.length)];
-  const max = Number("1" + String(Array(digits).fill(0)));
+  const max = Number("1" + Array(digits).fill(0).join(''));
   const first = Math.floor(Math.random() * max);
   const second = Math.floor(Math.random() * max);
   const question = `${first} ${sign} ${second}`;
+  // eslint-disable-next-line
   const finalAnswer = eval(question);
   return {question, finalAnswer}
 }

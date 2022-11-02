@@ -8,11 +8,18 @@ function QuizComponent({
   ans, // The correct answer
   onOver,
   range, // Max range of wrong answers from correct answer
+  stats,
 }: {
   qn: string;
   ans: number;
   onOver: (type: "correct" | "wrong" | "skipped") => void;
   range?: number;
+  stats: {
+    numCorrect: number;
+    numWrong: number;
+    numSkipped: number;
+    score: number;
+  };
 }) {
   const [answers, setAnswers] = useState([] as number[]);
   const colours = ["#15961A", "#EE6D6D", "#1EAEFF", "#6D7600"];
@@ -32,7 +39,7 @@ function QuizComponent({
       if (tries > 10) break; // To prevent infinite loops
     }
     setAnswers(shuffle(answers));
-  }, [qn]);
+  }, [qn, ans, range]);
 
   function generateOptions(ans: number, range: number) {
     const wrong = Array(3)
@@ -42,12 +49,17 @@ function QuizComponent({
   }
 
   function checkAnswer(givenAns: number) {
-    return givenAns == ans;
+    return givenAns === ans;
   }
 
   return (
     <div className={classes.outerContainer}>
-      <div className={classes.statusContainer}><p>Score: 5  </p></div>
+      <div className={classes.statusContainer}>
+        <p>Score: {stats.score} </p>
+        <p>Correct: {stats.numCorrect} </p>
+        <p>Wrong: {stats.numWrong} </p>
+        <p>Skipped: {stats.numSkipped} </p>
+      </div>
       <div className={classes.questionContainer}>
         <div className={classes.questionInnerContainer}>
           <p>What is {qn}?</p>

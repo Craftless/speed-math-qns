@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useLogout } from "../hooks/useLogout";
 import classes from "./SharedHeader.module.css";
 
 function QuizHeader({
@@ -36,7 +34,7 @@ function QuizHeader({
           <li>
             <p>
               {getTypeName(type)} - {qnNumber}
-              {type == "timed" ? ` of ${maxQnNumber!}` : ""}
+              {type === "timed" ? ` of ${maxQnNumber!}` : ""}
             </p>
           </li>
         </ul>

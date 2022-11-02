@@ -1,4 +1,3 @@
-import AccountView from "../components/AccountView";
 import InputField from "../components/InputField";
 import { auth, projectFirestore } from "../firebase/config";
 import useInput from "../hooks/use-input";
@@ -26,18 +25,26 @@ function AccountPage() {
           onSubmit={(e) => {
             e.preventDefault();
             if (formIsValid) {
-              projectFirestore.collection("users").doc(user?.uid!).update({
-                displayName: displayNameRegular.value,
-              });
+              resetDisplayName();
+              projectFirestore.collection("users").doc(user?.uid!).set(
+                {
+                  displayName: displayNameRegular.value,
+                },
+                { merge: true }
+              );
             } else {
               setAllTouched();
             }
           }}
         >
           <InputField label="Display Name" valueInput={displayNameRegular} />
-          <button className={`${classes.saveChangesBtn} ${
-            !formIsValid ? classes.disabledBtn : ""
-          }`}>Save Changes</button>
+          <button
+            className={`${classes.saveChangesBtn} ${
+              !formIsValid ? classes.disabledBtn : ""
+            }`}
+          >
+            Save Changes
+          </button>
         </form>
         <button
           className={classes.genericBtn}
