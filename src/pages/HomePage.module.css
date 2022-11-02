@@ -6,7 +6,7 @@
 }
 
 .statsTable {
-  width: 75%;
+  width: 100%;
   border-radius: 20px;
   margin: auto;
   margin-top: 20px;
@@ -17,11 +17,36 @@
   padding-top: 10px;
   padding-bottom: 20px;
 
+  border-radius: 0px;
+
+  /* background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); */
+
+  display: flex;
+}
+
+.statsTextContainer {
+  width: 100%;
+  padding: 16px 0px;
+  border-bottom: 1px solid white;
+}
+
+.statsOuterContainer {
+  width: 75%;
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 20px;
+
+  align-items: center;
+  justify-content: center;
+
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
   display: flex;
+  flex-direction: column;
 }
 
 .miniLeaderboard {

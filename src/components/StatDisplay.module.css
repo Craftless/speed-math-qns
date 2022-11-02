@@ -1,0 +1,24 @@
+.statsTab {
+  margin: 20px 30px;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0.3
+}
+
+.statsTab > * {
+  flex: 1;
+}
+
+.statsData {
+  margin-bottom: 10px;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.statsLabel {
+  margin: 16px;
+  font-size: .8rem;
+}
