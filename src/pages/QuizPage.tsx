@@ -26,28 +26,31 @@ function QuizPage() {
   const [numWrong, setNumWrong] = useState(0);
   const [score, setScore] = useState(0);
   const [numSkipped, setNumSkipped] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(NaN);
   const maxTTQns = 10;
 
   const { user } = useAuthContext();
 
   const answerChosenHandler = useCallback(
     (type: "correct" | "wrong" | "skipped") => {
-      switch (type) {
-        case "correct":
-          setNumCorrect((cur) => cur + 1);
-          setScore((cur) => cur + 1);
-          break;
-        case "wrong":
-          setNumWrong((cur) => cur + 1);
-          setScore((cur) => cur - 1);
-          break;
-        case "skipped":
-          setNumSkipped((cur) => cur + 1);
-          break;
+      if (qnNumber <= maxTTQns || gameType === "unlimited") {
+        switch (type) {
+          case "correct":
+            setNumCorrect((cur) => cur + 1);
+            setScore((cur) => cur + 1);
+            break;
+          case "wrong":
+            setNumWrong((cur) => cur + 1);
+            setScore((cur) => cur - 1);
+            break;
+          case "skipped":
+            setNumSkipped((cur) => cur + 1);
+            break;
+        }
+        incrementQnNumber();
       }
-      incrementQnNumber();
     },
-    []
+    [qnNumber, gameType]
   );
 
   const generateQuizComponent = useCallback(() => {
@@ -74,6 +77,10 @@ function QuizPage() {
     setQnNumber((cur) => cur + 1);
   }
 
+  function decrTime() {
+    setTimeLeft((val) => val - 1);
+  }
+
   useEffect(() => {
     const type: "timed" | "unlimited" = location.state?.type;
     if (!type) {
@@ -82,83 +89,109 @@ function QuizPage() {
     setGameType(type);
     setGameReady(true);
     setCurrentQC(generateQuizComponent());
-  }, [generateQuizComponent, location.state?.type, navigate]);
-
-  const gameOver = useCallback(async () => {
-    try {
-      setGameReady(false);
-      await projectFirestore
-        .collection("userData")
-        .doc(user!.uid)
-        .set(
-          {
-            totalWrong: firebase.firestore.FieldValue.increment(numWrong),
-            totalCorrect: firebase.firestore.FieldValue.increment(numCorrect),
-            totalSkipped: firebase.firestore.FieldValue.increment(numSkipped),
-            totalScore: firebase.firestore.FieldValue.increment(score),
-            totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
-          },
-          { merge: true }
-        );
-      await projectFirestore
-        .collection("stats")
-        .doc("homePageStats")
-        .update({
-          totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
-        });
-
-      await projectFirestore
-        .collection("lbTotalScore")
-        .doc(String(Math.round(score / 100) * 100))
-        .set(
-          {
-            [user!.uid]: firebase.firestore.FieldValue.increment(score),
-          },
-          { merge: true }
-        );
-
-      const top20 = await projectDatabase.ref("top20").get();
-      const top20Val: { [uid: string]: number } = await top20.val();
-      if (top20.numChildren() < 20) {
-        await projectDatabase.ref("top20").update({
-          [user!.uid]: firebase.database.ServerValue.increment(score),
-        });
-      } else {
-        const lowestUid = Object.keys(top20Val).sort(
-          (a, b) => top20Val[a] - top20Val[b]
-        )[0];
-        if (top20Val[lowestUid] < score) {
-          await projectDatabase.ref("top20").update({
-            [lowestUid]: undefined,
-            [user!.uid]: score,
-          });
-        }
-      }
-    } catch (e) {
-      console.log(e);
-      alert(e);
+    let timer: NodeJS.Timer;
+    if (type === "timed") {
+      setTimeLeft(10);
+      timer = setInterval(() => {
+        decrTime();
+      }, 1000);
     }
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
-    navigate("/gameOver", {
-      state: {
-        data: {
-          numCorrect,
-          numWrong,
-          numSkipped,
-          score,
+  const gameOver = useCallback(
+    async (completed: boolean = true) => {
+      let finalScore = score;
+      try {
+        if (!gameReady) return;
+        if (!completed) {
+          finalScore -= 5;
+        }
+        setGameReady(false);
+        await projectFirestore
+          .collection("userData")
+          .doc(user!.uid)
+          .set(
+            {
+              totalWrong: firebase.firestore.FieldValue.increment(numWrong),
+              totalCorrect: firebase.firestore.FieldValue.increment(numCorrect),
+              totalSkipped: firebase.firestore.FieldValue.increment(numSkipped),
+              totalScore: firebase.firestore.FieldValue.increment(finalScore),
+              totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
+            },
+            { merge: true }
+          );
+        await projectFirestore
+          .collection("stats")
+          .doc("homePageStats")
+          .update({
+            totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
+          });
+
+        await projectFirestore
+          .collection("totalScore")
+          .doc(String(Math.round(score / 100) * 100))
+          .set(
+            {
+              [user!.uid]: firebase.firestore.FieldValue.increment(finalScore),
+            },
+            { merge: true }
+          );
+
+        const top20 = await projectDatabase.ref("top20/totalScore").get();
+        const top20Val: { [uid: string]: number } = await top20.val();
+        if (top20.numChildren() < 20) {
+          await projectDatabase.ref("top20/totalScore").update({
+            [user!.uid]: firebase.database.ServerValue.increment(finalScore),
+          });
+        } else {
+          const lowestUid = Object.keys(top20Val).sort(
+            (a, b) => top20Val[a] - top20Val[b]
+          )[0];
+          if (top20Val[lowestUid] < finalScore) {
+            await projectDatabase.ref("top20/totalScore").update({
+              [lowestUid]: null,
+              [user!.uid]: finalScore,
+            });
+          }
+        }
+      } catch (e) {
+        console.log(e);
+        alert(e);
+      }
+
+      navigate("/gameOver", {
+        state: {
+          data: {
+            numCorrect,
+            numWrong,
+            numSkipped,
+            score: finalScore,
+            penalty: !completed
+          },
         },
-      },
-      replace: true,
-    });
-  }, [navigate, numCorrect, numSkipped, numWrong, score, user]);
+        replace: true,
+      });
+    },
+    [navigate, numCorrect, numSkipped, numWrong, score, user]
+  );
 
   useEffect(() => {
     if (qnNumber <= maxTTQns || gameType === "unlimited") {
       setCurrentQC(generateQuizComponent());
+      if (gameType === "unlimited") setTimeLeft(5);
     } else {
       gameOver();
     }
-  }, [qnNumber, gameOver, gameType, generateQuizComponent]);
+  }, [qnNumber, gameType]);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      gameOver(false);
+    }
+  }, [timeLeft]);
 
   return !gameReady ? (
     <div className={classes.outerContainer}>
@@ -169,17 +202,21 @@ function QuizPage() {
       <QuizHeader
         type={gameType}
         qnNumber={qnNumber}
-        timeRemaining={5}
+        timeRemaining={timeLeft}
         onEnd={() => {}}
         maxQnNumber={10}
       />
       <div className={classes.outerContainer}>
         {currentQC ? (
           <QuizComponent
+            type={gameType}
             qn={currentQC.qn}
             ans={currentQC.answer}
             onOver={currentQC.answerChosenHandler}
             stats={{ numCorrect, numWrong, numSkipped, score }}
+            decreaseTimeLeft={() => {
+              decrTime();
+            }}
           />
         ) : null}
       </div>

@@ -25,7 +25,7 @@ function QuizHeader({
   return (
     <div className={classes.outerContainer}>
       <div className={classes.headerContainer}>
-        <Link to="/" className={classes.header}>
+        <Link to="" className={classes.header}>
           Speed Math
         </Link>
       </div>
@@ -40,7 +40,7 @@ function QuizHeader({
         </ul>
         <ul>
           <li>
-            <p>0.05s Remaining</p>
+            <p>{timeRemaining}s Remaining</p>
           </li>
           <li>
             <button

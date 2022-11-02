@@ -4,12 +4,15 @@ import Option from "./Option";
 import classes from "./QuizComponent.module.css";
 
 function QuizComponent({
+  type,
   qn, // The question to display
   ans, // The correct answer
   onOver,
   range, // Max range of wrong answers from correct answer
   stats,
+  decreaseTimeLeft,
 }: {
+  type: "timed" | "unlimited";
   qn: string;
   ans: number;
   onOver: (type: "correct" | "wrong" | "skipped") => void;
@@ -20,6 +23,7 @@ function QuizComponent({
     numSkipped: number;
     score: number;
   };
+  decreaseTimeLeft: () => void;
 }) {
   const [answers, setAnswers] = useState([] as number[]);
   const colours = ["#15961A", "#EE6D6D", "#1EAEFF", "#6D7600"];
@@ -39,7 +43,16 @@ function QuizComponent({
       if (tries > 10) break; // To prevent infinite loops
     }
     setAnswers(shuffle(answers));
-  }, [qn, ans, range]);
+    let timer: NodeJS.Timer;
+    if (type === "unlimited") {
+      timer = setInterval(() => {
+        decreaseTimeLeft();
+      }, 1000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [ans, qn, range]);
 
   function generateOptions(ans: number, range: number) {
     const wrong = Array(3)

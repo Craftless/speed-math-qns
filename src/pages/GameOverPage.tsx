@@ -11,6 +11,7 @@ function GameOverPage() {
       numCorrect: number;
       numWrong: number;
       numSkipped: number;
+      penalty: boolean;
     }
   );
 
@@ -24,11 +25,16 @@ function GameOverPage() {
   }, [location.state?.data, navigate]);
   return (
     <div className={classes.outerContainer}>
-      <div>
-        <p>Score: {data.score}</p>
-        <p>Correct: {data.numCorrect}</p>
-        <p>Wrong: {data.numWrong}</p>
-        <p>Skipped: {data.numSkipped}</p>
+      <div className={classes.scoreBreakdownOuterContainer}>
+        <div className={classes.scoreTextContainer}>
+          <p>Score: {data.score}</p>
+        </div>
+        <div>
+          <p>Correct: {data.numCorrect}</p>
+          <p>Wrong: {data.numWrong}</p>
+          <p>Skipped: {data.numSkipped}</p>
+          <p>Penalty: {data.penalty ? "-5" : "No penalty"}</p>
+        </div>
       </div>
     </div>
   );

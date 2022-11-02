@@ -10,7 +10,7 @@ interface PlayerRepresentation {
   rank: number;
   displayName: string;
   pfpUrl: string;
-  totalScore: number;
+  valueToDisplay: number;
   userId: string;
 }
 
@@ -19,18 +19,20 @@ function LeaderboardPage() {
     [] as PlayerRepresentation[]
   );
 
+  const [lbType, setLbType] = useState("totalScore");
+
   useEffect(() => {
     (async () => {
       const lowest20: {
         [uid: string]: number;
       } = await (
-        await projectDatabase.ref("top20").orderByValue().limitToFirst(1).get()
+        await projectDatabase.ref(`top20/${lbType}`).orderByValue().limitToFirst(1).get()
       ).val();
 
       // 1. Fetch data from Firebase
       const data = (
         await projectFirestore
-          .collection("lbTotalScore")
+          .collection(lbType)
           .where(
             firebase.firestore.FieldPath.documentId(),
             ">=",
@@ -52,12 +54,12 @@ function LeaderboardPage() {
       const finalArr = Object.keys(finalObj).map((key) => {
         return {
           uid: key,
-          totalScore: finalObj[key],
+          valueToDisplay: finalObj[key],
         };
       });
 
       // Sort by score
-      finalArr.sort((a, b) => b.totalScore - a.totalScore);
+      finalArr.sort((a, b) => b.valueToDisplay - a.valueToDisplay);
 
       // Construct array of PlayerRepresentations
       const lbArr: PlayerRepresentation[] = [];
@@ -71,7 +73,7 @@ function LeaderboardPage() {
             lbArr.push({
               rank: index + 1,
               ...userDetails,
-              totalScore: item.totalScore,
+              valueToDisplay: item.valueToDisplay,
               userId: item.uid,
             });
         })
@@ -80,11 +82,12 @@ function LeaderboardPage() {
       setLeaderboardArray(lbArr);
       console.log("Arr", lbArr);
     })();
-  }, []);
+  }, [lbType]);
 
   return (
     <div className={classes.outerContainer}>
       <h2 className={classes.leaderboardLabel}>Leaderboard</h2>
+      
       {leaderboardArray.length > 0 && (
         <div className={classes.mainContainer}>
           <div className={classes.leaderboardContainer}>
@@ -95,13 +98,11 @@ function LeaderboardPage() {
             </div>
             {leaderboardArray.map((val, index, arr) => (
               <>
-                {/* {index < arr.length - 1 && ( */}
                 <div className={classes.separator} />
-                {/* )} */}
                 <LeaderboardEntry
                   position={val.rank}
                   name={val.displayName}
-                  score={val.totalScore}
+                  score={val.valueToDisplay}
                   key={val.userId}
                 />
               </>
