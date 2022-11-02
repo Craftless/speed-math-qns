@@ -1,8 +1,112 @@
 body {
-  background-colour: white;
+  background-color: #D9D9D9;
 }
 
-div {
+#homeButton {
+  width: 50px;
   text-align: center;
-  text-colour: blue;
+  color: blue;
+  background-color: #B9B9B9;
+  border: none;
+}
+
+#startQuizButton {
+  width: 100px;
+  text-align: center;
+  color: red;
+  border: none;
+}
+
+#leaderboardButton {
+  width: 100px;
+  text-align: center;
+  color: black;
+  border: none;
+}
+
+#accountButton {
+  float: right;
+  width: 60px;
+  text-align: center;
+  color: black;
+  border: none;
+}
+
+.NavBar {
+  display: flex;
+  width: 100%;
+}
+
+.GameCountStats {
+  font-size: 48px;
+}
+
+.GamesCount {
+  font-size: 15px;
+}
+
+.TotalUsersStats {
+  font-size: 48px;
+}
+
+.TotalUsers {
+  font-size: 15px;
+}
+
+.AverageScoreStats {
+  font-size: 48px;
+}
+
+.AverageScore {
+  font-size: 15px;
+}
+
+.LeaderboardPosStats {
+  font-size: 48px;
+}
+
+.LeaderboardPos {
+  font-size: 15px;
+}
+
+.StatisticsTable {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  background-color: #CECECE;
+}
+
+.GameCountTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.TotalUsersTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AverageScoreTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.LeaderboardPosTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#LeaderboardHome {
+  width: 100%;
+}
+
+strong {
+  border: 1px;
+  border-style: solid;
+  font-size: 15px;
 }
