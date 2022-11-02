@@ -31,7 +31,7 @@ function QuizComponent({
       if (tries > 10) break; // To prevent infinite loops
     }
     setAnswers(shuffle(answers));
-  }, []);
+  }, [qn]);
 
   function generateOptions(ans: number, range: number) {
     const wrong = Array(3)

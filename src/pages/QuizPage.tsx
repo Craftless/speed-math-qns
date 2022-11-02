@@ -27,19 +27,32 @@ function QuizPage() {
 
   function answerChosenHandler(isCorrect: boolean) {
     if (isCorrect) {
-
-    }
-    else {
-
+    } else {
     }
     incrementQnNumber();
+    setCurrentQC(generateQuizComponent());
   }
 
   function generateQuizComponent() {
-    const { question, finalAnswer } = generateQuestion(
-      Math.max(Math.floor(qnNumber / 4), 1)
+    let answer = 0.5;
+    let qn = "You should not be seeing this";
+    let tries = 0;
+    while (answer % 1 != 0) {
+      const { question, finalAnswer } = generateQuestion(
+        Math.max(Math.floor(qnNumber / 4), 1)
+      );
+      answer = finalAnswer;
+      qn = question;
+      tries++;
+      if (tries > 10) break;
+    }
+    return (
+      <QuizComponent
+        qn={qn}
+        ans={answer}
+        onOver={answerChosenHandler}
+      />
     );
-    return <QuizComponent qn={question} ans={finalAnswer} onOver={answerChosenHandler} />;
   }
 
   return <p>{currentQC}</p>;
