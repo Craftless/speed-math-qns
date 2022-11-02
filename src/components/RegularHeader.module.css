@@ -44,3 +44,12 @@
 .outerContainer ul li {
   padding: 16px;
 }
+
+.logoutButton {
+  color: red;
+  font-weight: 500;
+}
+
+.link {
+  font-weight: 400;
+}

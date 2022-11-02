@@ -23,30 +23,32 @@ function Root() {
   const authCtx = useContext(AuthContext);
   const [waitingForEvent, setWaitingForEvent] = useState(true);
 
-  // useEffect(() => {
-  //   let unsubscribe = () => {};
-  //   async function init() {
-  //     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-  //     unsubscribe = auth.onAuthStateChanged((user) => {
-  //       // alert(user?.email)
-  //       if (user) {
-  //         alert(user.email);
-  //         authCtx
-  //           .authenticate(user)
-  //           .then(() => setWaitingForEvent(false))
-  //           .catch((error: any) => alert(error));
-  //       } else {
-  //         // alert("LOGOUT")
-  //         authCtx.logout();
-  //         setWaitingForEvent(false);
-  //       }
-  //     });
-  //   }
-  //   init();
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+  /*
+  useEffect(() => {
+    let unsubscribe = () => {};
+    async function init() {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      unsubscribe = auth.onAuthStateChanged((user) => {
+        // alert(user?.email)
+        if (user) {
+          alert(user.email);
+          authCtx
+            .authenticate(user)
+            .then(() => setWaitingForEvent(false))
+            .catch((error: any) => alert(error));
+        } else {
+          // alert("LOGOUT")
+          authCtx.logout();
+          setWaitingForEvent(false);
+        }
+      });
+    }
+    init();
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  */
   const { user, authIsReady } = useAuthContext();
 
   return (

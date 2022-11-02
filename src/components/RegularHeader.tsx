@@ -14,21 +14,20 @@ function RegularHeader() {
       <div className={classes.linksContainer}>
         <ul>
           <li>
-            <Link to="/quiz">Start quiz</Link>
+            <Link to="/quiz" className={classes.link}>Start quiz</Link>
           </li>
           <li>
-            <Link to="/leaderboard">Leaderboard</Link>
+            <Link to="/leaderboard" className={classes.link}>Leaderboard</Link>
           </li>
         </ul>
         <ul>
           <li>
-            <Link to="/account">Account</Link>
+            <Link to="/account" className={classes.link}>Account</Link>
           </li>
           <li>
             <button
-              onClick={() => {
-                logout();
-              }}
+              onClick={() => { logout(); }}
+              className={classes.logoutButton}
             >
               Logout
             </button>
