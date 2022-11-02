@@ -1,34 +1,59 @@
-import { Link } from "react-router-dom";
 import "./HomePage.module.css";
 
 function HomePage() {
   return (
     <div className="outerContainer">
-      <span>Home</span>
-      &nbsp;
-      <Link to="/auth">Login</Link>
-      &nbsp;
-      <Link to="/login">Sign Up!</Link>
-      <h2 id="StatsHeader">Statistics</h2>
       <div className="StatisticsTable">
-        <br />
-        <div className="GamesCount">
-          <strong>55 Games played</strong>
+        <div className="GameCountTab">
+          <div className="GameCountStats">
+            25
+          </div>
+          <div className="GamesCount">
+            <strong>
+              Games played 
+            </strong>
+          </div>
         </div>
-        <div className="TotalUsers">
-          <strong>75 total users</strong>
+        <div className="TotalUsersTab">
+          <div className="TotalUsersStats">
+            75
+          </div>
+          <div className="TotalUsers">
+            <strong>
+              Total users 
+            </strong> 
+          </div>
         </div>
-        <div className="AverageScore">
-          <strong>88% Your score</strong>
+        <div className="AverageScoreTab">
+          <div className="AverageScoreStats">
+            88%
+          </div>
+          <div className="AverageScore">
+            <strong>
+              Your score 
+            </strong>
+          </div>
         </div>
-        <div className="LeaderboardPos">
-          <strong>7 Your leaderboard position</strong>
+        <div className="LeaderboardPosTab">
+          <div className="LeaderboardPosStats">
+            7
+          </div>
+          <div className="LeaderboardPos">
+            <strong>
+              Your leaderboard position 
+            </strong>
+          </div>
         </div>
       </div>
       <br />
-      <h2>Leaderboard</h2>
+
+      <h2>
+      Leaderboard
+      </h2>
       <br />
-      <div className="LeaderboardHome"></div>
+
+      <div className="LeaderboardHome">
+      </div>
     </div>
   );
 }

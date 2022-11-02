@@ -55,15 +55,6 @@ function Root() {
     <div className="App">
       {authIsReady && (
         <BrowserRouter>
-          {/* <p>{String(!!user)}</p>
-          <p>{user?.email}</p>
-          <button
-            onClick={() => {
-              logout();
-            }}
-          >
-            Logout
-          </button> */}
           {user && <RegularHeader />}
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
