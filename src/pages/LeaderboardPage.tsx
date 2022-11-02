@@ -1,7 +1,10 @@
+import LeaderboardDisplay from "../components/LeaderboardDisplay";
+import classes from "./LeaderboardPage.module.css";
+
 function LeaderboardPage() {
   return (
-    <div>
-      <p>LB</p>
+    <div className={classes.mainContainer}>
+      <LeaderboardDisplay />
     </div>
   );
 }

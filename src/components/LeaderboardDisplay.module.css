@@ -1,0 +1,19 @@
+.leaderboardDisplay {
+  margin: auto;
+  padding: 10px 10px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  width: 75%;
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.leaderboardList {
+  list-style: decimal;
+}
+
+.leaderboardListItem {
+  font-size: 20px;
+}
