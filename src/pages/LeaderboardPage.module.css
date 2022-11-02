@@ -15,3 +15,18 @@
   margin: auto;
   margin-top: 20px;
 }
+
+.spinnerContainer {
+  justify-self: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.outerContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+}

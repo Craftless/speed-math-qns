@@ -194,3 +194,30 @@ export async function updateUserProfile(
 //     </>
 //   );
 // }
+
+
+export async function fetchDisplayNameAndPhotoURLFromUid(uid: string) {
+  const userRef = projectDatabase.ref("userInfo").orderByKey().equalTo(uid);
+  const val = await (await userRef.get()).val();
+  if (!val || Object.keys(val).length > 1) {
+    alert("Something went wrong! lb fetchDisplayNameAndPhotoURLFromUid" + uid);
+    if (auth.currentUser)
+      updateUserProfile(auth.currentUser, {
+        // Doing this because the user might have recently signed up and their details were not sent to database due to a bug
+        displayName: getCurrentUserDisplayNameOrEmailNonNullFromUser(
+          auth.currentUser
+        ),
+        photoURL: getCurrentUserProfilePictureNonNullFromUser(auth.currentUser),
+      });
+    return null;
+  }
+  let displayName, pfpUrl;
+  for (const key in val) {
+    displayName = val[key].displayName;
+    pfpUrl = val[key].pfpUrl;
+  }
+  return {
+    displayName,
+    pfpUrl,
+  };
+}

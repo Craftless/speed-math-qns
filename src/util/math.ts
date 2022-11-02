@@ -36,3 +36,5 @@ export function shuffle(a: any[]) {
 }
 
 export const operators = ["+", "-", "*", "/"];
+
+

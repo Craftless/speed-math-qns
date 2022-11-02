@@ -14,11 +14,13 @@ import "firebase/compat/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyCkSQLgQ_piRKPbn0Ys85n5b_kA9dltvEE",
   authDomain: "speed-a0458.firebaseapp.com",
+  databaseURL: "https://speed-a0458-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "speed-a0458",
   storageBucket: "speed-a0458.appspot.com",
   messagingSenderId: "433059418148",
-  appId: "1:433059418148:web:83eb81aeb3da3ecd6148b1",
+  appId: "1:433059418148:web:83eb81aeb3da3ecd6148b1"
 };
+
 
 firebase.initializeApp(firebaseConfig);
 

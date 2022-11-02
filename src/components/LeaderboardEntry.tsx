@@ -1,12 +1,12 @@
 import classes from "./LeaderboardEntry.module.css";
 
-function LeaderboardEntry( props: any )
+function LeaderboardEntry({ position, name, score }: {position: number, name: string, score: number})
 {
   return (
     <div className={classes.row}>
-      <div className={classes.position}>{props.position}</div>
-      <div className={classes.name}>{props.name}</div>
-      <div className={classes.score}>{props.score}</div>
+      <div className={classes.position}>{position}</div>
+      <div className={classes.name}>{name}</div>
+      <div className={classes.score}>{score}</div>
     </div>
   );
 }

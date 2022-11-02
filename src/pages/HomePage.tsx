@@ -28,7 +28,7 @@ function HomePage() {
   useEffect(() => {
     if (stats.hasData) {
       setTotalUsers(stats.totalUsers!);
-      setPersonalTotalGamesPlayed(stats.totalScore!);
+      setPersonalTotalScore(stats.totalScore!);
       setPersonalTotalGamesPlayed(stats.personalTGP!);
       setGlobalTotalGamesPlayed(stats.globalTGP!);
     } else {

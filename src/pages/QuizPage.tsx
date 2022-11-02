@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import QuizComponent from "../components/QuizComponent";
 import QuizHeader from "../components/QuizHeader";
-import { projectFirestore } from "../firebase/config";
+import { projectDatabase, projectFirestore } from "../firebase/config";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { generateQuestion } from "../util/math";
 import classes from "./QuizPage.module.css";
@@ -85,26 +85,60 @@ function QuizPage() {
   }, [generateQuizComponent, location.state?.type, navigate]);
 
   const gameOver = useCallback(async () => {
-    setGameReady(false);
-    await projectFirestore
-      .collection("userData")
-      .doc(user!.uid)
-      .set(
-        {
-          totalWrong: firebase.firestore.FieldValue.increment(numWrong),
-          totalCorrect: firebase.firestore.FieldValue.increment(numCorrect),
-          totalSkipped: firebase.firestore.FieldValue.increment(numSkipped),
-          totalScore: firebase.firestore.FieldValue.increment(score),
+    try {
+      setGameReady(false);
+      await projectFirestore
+        .collection("userData")
+        .doc(user!.uid)
+        .set(
+          {
+            totalWrong: firebase.firestore.FieldValue.increment(numWrong),
+            totalCorrect: firebase.firestore.FieldValue.increment(numCorrect),
+            totalSkipped: firebase.firestore.FieldValue.increment(numSkipped),
+            totalScore: firebase.firestore.FieldValue.increment(score),
+            totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
+          },
+          { merge: true }
+        );
+      await projectFirestore
+        .collection("stats")
+        .doc("homePageStats")
+        .update({
           totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
-        },
-        { merge: true }
-      );
-    await projectFirestore
-      .collection("stats")
-      .doc("homePageStats")
-      .update({
-        totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
-      });
+        });
+
+      await projectFirestore
+        .collection("lbTotalScore")
+        .doc(String(Math.round(score / 100) * 100))
+        .set(
+          {
+            [user!.uid]: firebase.firestore.FieldValue.increment(score),
+          },
+          { merge: true }
+        );
+
+      const top20 = await projectDatabase.ref("top20").get();
+      const top20Val: { [uid: string]: number } = await top20.val();
+      if (top20.numChildren() < 20) {
+        await projectDatabase.ref("top20").update({
+          [user!.uid]: firebase.database.ServerValue.increment(score),
+        });
+      } else {
+        const lowestUid = Object.keys(top20Val).sort(
+          (a, b) => top20Val[a] - top20Val[b]
+        )[0];
+        if (top20Val[lowestUid] < score) {
+          await projectDatabase.ref("top20").update({
+            [lowestUid]: undefined,
+            [user!.uid]: score,
+          });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    }
+
     navigate("/gameOver", {
       state: {
         data: {

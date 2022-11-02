@@ -1,6 +1,6 @@
 import firebase from "firebase/compat/app";
 import { useEffect, useState } from "react";
-import { auth, projectFirestore } from "../firebase/config";
+import { auth, projectDatabase, projectFirestore } from "../firebase/config";
 import { useAuthContext } from "./useAuthContext";
 
 export const useSignup = () => {
@@ -28,9 +28,13 @@ export const useSignup = () => {
       // add display name to user
       await res.user.updateProfile({ displayName });
 
-      await projectFirestore.collection("users").doc(res.user.uid).set({
-        displayName,
-      });
+      await projectDatabase.ref(`userInfo/${res.user.uid}`).update({
+        displayName
+      })
+
+      // await projectFirestore.collection("users").doc(res.user.uid).set({
+      //   displayName,
+      // });
 
       await projectFirestore
         .collection("stats")

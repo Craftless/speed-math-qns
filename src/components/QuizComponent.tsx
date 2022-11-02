@@ -73,6 +73,7 @@ function QuizComponent({
                 onOver(checkAnswer(val) ? "correct" : "wrong");
               }}
               color={colours[index]}
+              key={index}
             >
               <p>{String(val)}</p>
             </Option>
