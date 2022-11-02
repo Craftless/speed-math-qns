@@ -87,7 +87,7 @@ function AuthForm() {
 
   return loginIsPending || signupIsPending ? (
     <div className={classes.outerContainer}>
-      <LoadingSpinner height={200} width={200}/>
+      <LoadingSpinner height={200} width={200} borderWidth={10}/>
     </div>
   ) : (
     <div className={classes.outerContainer}>

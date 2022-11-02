@@ -26,7 +26,7 @@ function HomePage() {
         <div className={classes.statsTab}>
           <strong className={classes.statsLabel}>Total users</strong>
           {totalUsers ? <p className={classes.statsData}>{totalUsers}</p> : (
-            <LoadingSpinner width={25} height={25} />
+            <LoadingSpinner width={25} height={25} borderWidth={4} />
           )}
         </div>
         <div className={classes.statsTab}>

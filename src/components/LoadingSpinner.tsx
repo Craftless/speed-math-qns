@@ -1,6 +1,14 @@
 import classes from "./LoadingSpinner.module.css";
 
-function LoadingSpinner({ width, height }: { width: number; height: number }) {
+function LoadingSpinner({
+  width,
+  height,
+  borderWidth,
+}: {
+  width: number;
+  height: number;
+  borderWidth: number;
+}) {
   return (
     <div
       style={{
@@ -9,7 +17,7 @@ function LoadingSpinner({ width, height }: { width: number; height: number }) {
       }}
       className={classes.spinnerContainer}
     >
-      <div style={{ width, height }} className={classes.loadingSpinner}></div>
+      <div style={{ width, height, borderWidth }} className={classes.loadingSpinner}></div>
     </div>
   );
 }

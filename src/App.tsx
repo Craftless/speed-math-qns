@@ -66,7 +66,6 @@ function Root() {
       {authIsReady && (
         <>
           {location.pathname != "/quiz" && user && <RegularHeader />}
-          {/* {location.pathname == "/quiz" && <QuizHeader />} */}
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={user ? <HomePage /> : <AuthPage />} />
@@ -83,7 +82,7 @@ function Root() {
       )}
       {!authIsReady && (
         <div className="outerContainer">
-          <LoadingSpinner width={200} height={200} />
+          <LoadingSpinner width={75} height={75} borderWidth={10} />
         </div>
       )}
     </div>
