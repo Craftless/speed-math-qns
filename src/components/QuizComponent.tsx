@@ -6,20 +6,27 @@ import classes from "./QuizComponent.module.css";
 function QuizComponent({
   qn, // The question to display
   ans, // The correct answer
+  onOver,
   range, // Max range of wrong answers from correct answer
 }: {
   qn: string;
   ans: number;
+  onOver: (correct: boolean) => void;
   range?: number;
 }) {
   const [answers, setAnswers] = useState([] as number[]);
 
   useEffect(() => {
-    
-    let answers = generateOptions(ans, range ?? Math.max(5, Math.abs(Math.floor(ans * 0.5))));
+    let answers = generateOptions(
+      ans,
+      range ?? Math.max(5, Math.abs(Math.floor(ans * 0.5)))
+    );
     let tries = 0;
     while (hasDuplicates(answers)) {
-      answers = generateOptions(ans, range ?? Math.max(5, Math.abs(Math.floor(ans * 0.5))));
+      answers = generateOptions(
+        ans,
+        range ?? Math.max(5, Math.abs(Math.floor(ans * 0.5)))
+      );
       tries++;
       if (tries > 10) break; // To prevent infinite loops
     }
@@ -33,6 +40,10 @@ function QuizComponent({
     return [ans, ...wrong];
   }
 
+  function checkAnswer(givenAns: number) {
+    return givenAns == ans;
+  }
+
   return (
     <div className={classes.outerContainer}>
       <div className={classes.questionContainer}>
@@ -40,7 +51,13 @@ function QuizComponent({
       </div>
       <div className={classes.optionsContainer}>
         {answers.map((val) => (
-          <Option>{String(val)}</Option>
+          <Option
+            onPress={() => {
+              onOver(checkAnswer(val));
+            }}
+          >
+            {String(val)}
+          </Option>
         ))}
       </div>
     </div>

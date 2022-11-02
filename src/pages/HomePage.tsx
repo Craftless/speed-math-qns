@@ -1,14 +1,8 @@
-import { Link } from "react-router-dom";
 import "./HomePage.module.css";
 
 function HomePage() {
   return (
     <div className="outerContainer">
-      <span>Home</span>
-      &nbsp;
-      <Link to="/auth">Login</Link>
-      &nbsp;
-      <Link to="/login">Sign Up!</Link>
       <h2 id="StatsHeader">Statistics</h2>
       <div className="StatisticsTable">
         <br />

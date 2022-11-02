@@ -25,11 +25,21 @@ function QuizPage() {
     setCurrentQC(generateQuizComponent());
   }, []);
 
+  function answerChosenHandler(isCorrect: boolean) {
+    if (isCorrect) {
+
+    }
+    else {
+
+    }
+    incrementQnNumber();
+  }
+
   function generateQuizComponent() {
     const { question, finalAnswer } = generateQuestion(
       Math.max(Math.floor(qnNumber / 4), 1)
     );
-    return <QuizComponent qn={question} ans={finalAnswer} />;
+    return <QuizComponent qn={question} ans={finalAnswer} onOver={answerChosenHandler} />;
   }
 
   return <p>{currentQC}</p>;
