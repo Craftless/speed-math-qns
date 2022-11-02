@@ -19,5 +19,6 @@
   display: grid;
   justify-content: center;
   align-items: center;
+  background-color: red;
   height: 350px;
 }

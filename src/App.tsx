@@ -22,6 +22,7 @@ import RegularHeader from "./components/RegularHeader";
 import QuizPage from "./pages/QuizPage";
 import QuizHeader from "./components/QuizHeader";
 import ChooseQuizTypePage from "./pages/ChooseQuizTypePage";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
   return <Root />;
@@ -74,9 +75,16 @@ function Root() {
             )}
             {user && <Route path="/account" element={<AccountPage />} />}
             {user && <Route path="/quiz" element={<QuizPage />} />}
-            {user && <Route path="/chooseQuizType" element={<ChooseQuizTypePage />} />}
+            {user && (
+              <Route path="/chooseQuizType" element={<ChooseQuizTypePage />} />
+            )}
           </Routes>
         </>
+      )}
+      {!authIsReady && (
+        <div className="outerContainer">
+          <LoadingSpinner width={200} height={200} />
+        </div>
       )}
     </div>
   );
