@@ -21,7 +21,7 @@ function QuizPage() {
 
   function generateQuizComponent() {
     // 
-    return <QuizComponent qn="5 + 5" ans={10} query={5} />
+    return <QuizComponent qn="5 + 5" ans={10} />
   }
 
 
