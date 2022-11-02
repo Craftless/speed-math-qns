@@ -1,21 +1,55 @@
+.outerContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: bold;
+  /* align-items: center; */
+}
+
 .timed {
-  display: block;
-  width: 100%;
-  border: none;
-  background-color: #04AA6D;
-  padding: 28px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
+  background-color: #00CB80;
+}
+
+
+.timed:hover {
+  background-color: #00e792;
 }
 
 .unlimited {
-  display: block;
+  background-color: #DB4200;
+}
+
+.unlimited:hover {
+  background-color: #f34900;
+}
+
+.btnsContainer {
+  flex: 0.8;
+  display: flex;
+  justify-content: space-between;
+  font-size: 3rem;
+  padding: 32px;
+  margin: 0px 64px;
+}
+
+.textContainer {
+  flex: 0.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   border: none;
-  background-color: #db4200;
   padding: 28px 28px;
-  font-size: 16px;
   cursor: pointer;
   text-align: center;
+  flex: 0.7
 }
+

@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import QuizComponent from "../components/QuizComponent";
 import QuizHeader from "../components/QuizHeader";
+import { projectFirestore } from "../firebase/config";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { generateQuestion, operators, randomNumberRange } from "../util/math";
+import firebase from "firebase/compat/app";
 import classes from "./QuizPage.module.css";
 
 function QuizPage() {
@@ -15,6 +18,9 @@ function QuizPage() {
   const [numCorrect, setNumCorrect] = useState(0);
   const [numWrong, setNumWrong] = useState(0);
   const [numSkipped, setNumSkipped] = useState(0);
+  const maxTTQns = 10;
+
+  const { user } = useAuthContext();
 
   function incrementQnNumber() {
     setQnNumber((cur) => cur + 1);
@@ -30,17 +36,35 @@ function QuizPage() {
     setCurrentQC(generateQuizComponent());
   }, []);
 
+  async function gameOver() {
+    await projectFirestore.collection("userData").doc(user!.uid).update({
+      totalWrong: firebase.firestore.FieldValue.increment(numWrong),
+      totalCorrect: firebase.firestore.FieldValue.increment(numCorrect),
+      totalSkipped: firebase.firestore.FieldValue.increment(numSkipped),
+      // totalScore: firebase.firestore.FieldValue.increment()
+    });
+  }
+
   function answerChosenHandler(type: "correct" | "wrong" | "skipped") {
     switch (type) {
       case "correct":
+        setNumCorrect((cur) => cur + 1);
         break;
       case "wrong":
+        setNumWrong((cur) => cur + 1);
         break;
       case "skipped":
+        setNumSkipped((cur) => cur + 1);
         break;
     }
-    incrementQnNumber();
-    setCurrentQC(generateQuizComponent());
+    if (gameType != "unlimited") {
+      if (qnNumber < maxTTQns) {
+        incrementQnNumber();
+        setCurrentQC(generateQuizComponent());
+      } else {
+        gameOver();
+      }
+    }
   }
 
   function generateQuizComponent() {
@@ -61,7 +85,13 @@ function QuizPage() {
 
   return (
     <>
-      <QuizHeader type={gameType} qnNumber={qnNumber} timeRemaining={5} onEnd={() => {}} maxQnNumber={10} />
+      <QuizHeader
+        type={gameType}
+        qnNumber={qnNumber}
+        timeRemaining={5}
+        onEnd={() => {}}
+        maxQnNumber={10}
+      />
       <div className={classes.outerContainer}>{currentQC}</div>
     </>
   );

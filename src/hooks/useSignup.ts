@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { auth, projectDatabase, projectFirestore } from "../firebase/config";
 import { useAuthContext } from "./useAuthContext";
+import firebase from "firebase/compat/app";
 
 export const useSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false);
@@ -31,19 +32,12 @@ export const useSignup = () => {
         displayName,
       });
 
-      const stats = (
-        await projectFirestore.collection("stats").doc("homePageStats").get()
-      ).data();
-      if (!stats) {
-        alert("No stats");
-      } else {
-        await projectFirestore
-          .collection("stats")
-          .doc("homePageStats")
-          .update({
-            totalUsers: stats!.totalUsers + 1,
-          });
-      }
+      await projectFirestore
+        .collection("stats")
+        .doc("homePageStats")
+        .update({
+          totalUsers: firebase.firestore.FieldValue.increment(1),
+        });
 
       // dispatch login action
       dispatch({ type: "LOGIN", payload: res.user });

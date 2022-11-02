@@ -24,9 +24,13 @@ function HomePage() {
           <p className={classes.statsData}>25</p>
         </div>
         <div className={classes.statsTab}>
-          <strong className={classes.statsLabel}>Total users</strong>
-          {totalUsers ? <p className={classes.statsData}>{totalUsers}</p> : (
-            <LoadingSpinner width={25} height={25} borderWidth={4} />
+          {totalUsers ? (
+            <>
+              <strong className={classes.statsLabel}>Total users</strong>
+              <p className={classes.statsData}>{totalUsers}</p>
+            </>
+          ) : (
+            <LoadingSpinner width={20} height={20} borderWidth={4} />
           )}
         </div>
         <div className={classes.statsTab}>
