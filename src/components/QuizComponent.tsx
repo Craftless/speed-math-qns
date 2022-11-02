@@ -16,10 +16,10 @@ function QuizComponent({
 
   useEffect(() => {
     
-    let answers = generateOptions(ans, range ?? Math.abs(Math.floor(ans * 0.5)));
+    let answers = generateOptions(ans, range ?? Math.max(5, Math.abs(Math.floor(ans * 0.5))));
     let tries = 0;
     while (hasDuplicates(answers)) {
-      answers = generateOptions(ans, range ?? Math.abs(Math.floor(ans * 0.5)));
+      answers = generateOptions(ans, range ?? Math.max(5, Math.abs(Math.floor(ans * 0.5))));
       tries++;
       if (tries > 10) break; // To prevent infinite loops
     }
@@ -36,7 +36,7 @@ function QuizComponent({
   return (
     <div className={classes.outerContainer}>
       <div className={classes.questionContainer}>
-        <p>5 + 5</p>
+        <p>{qn}</p>
       </div>
       <div className={classes.optionsContainer}>
         {answers.map((val) => (

@@ -3,22 +3,35 @@ export function randomNumberRange(query: number, range: number) {
 }
 
 export function hasDuplicates(array: any[]) {
-  return (new Set(array)).size !== array.length;
+  return new Set(array).size !== array.length;
 }
 
-function getRandomInt(min: number, max: number) { // min and max are inclusive
+function getRandomInt(min: number, max: number) {
+  // min and max are inclusive
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+export function generateQuestion(digits: number) {
+  const sign = operators[Math.floor(Math.random() * operators.length)];
+  const max = Number("1" + String(Array(digits).fill(0)));
+  const first = Math.floor(Math.random() * max);
+  const second = Math.floor(Math.random() * max);
+  const question = `${first} ${sign} ${second}`;
+  const finalAnswer = eval(question);
+  return {question, finalAnswer}
+}
+
 export function shuffle(a: any[]) {
   var j, x, i;
   for (i = a.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      x = a[i];
-      a[i] = a[j];
-      a[j] = x;
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
   }
   return a;
 }
+
+export const operators = ["+", "-", "*", "/"];
