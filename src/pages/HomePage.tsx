@@ -22,10 +22,10 @@ function HomePage() {
         </div>
       </div>
       <br />
-
-      <h2>
-      Leaderboard
-      </h2>
+      <div className={classes.miniLeaderboard}>
+        <h2>Top 5</h2>
+        
+      </div>
       <br />
 
       <div className="LeaderboardHome">
