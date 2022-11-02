@@ -1,44 +1,44 @@
-import "./HomePage.module.css";
+import classes from "./HomePage.module.css";
 
 function HomePage() {
   return (
-    <div className="outerContainer">
-      <div className="StatisticsTable">
-        <div className="GameCountTab">
-          <div className="GameCountStats">
+    <div className={classes.outerContainer}>
+      <div className={classes.StatisticsTable}>
+        <div className={classes.GameCountTab}>
+          <div className={classes.GameCountStats}>
             25
           </div>
-          <div className="GamesCount">
+          <div className={classes.GamesCount}>
             <strong>
               Games played 
             </strong>
           </div>
         </div>
-        <div className="TotalUsersTab">
-          <div className="TotalUsersStats">
+        <div className={classes.TotalUsersTab}>
+          <div className={classes.TotalUsersStats}>
             75
           </div>
-          <div className="TotalUsers">
+          <div className={classes.TotalUsers}>
             <strong>
               Total users 
             </strong> 
           </div>
         </div>
-        <div className="AverageScoreTab">
-          <div className="AverageScoreStats">
+        <div className={classes.AverageScoreTab}>
+          <div className={classes.AverageScoreStats}>
             88%
           </div>
-          <div className="AverageScore">
+          <div className={classes.AverageScore}>
             <strong>
               Your score 
             </strong>
           </div>
         </div>
-        <div className="LeaderboardPosTab">
-          <div className="LeaderboardPosStats">
+        <div className={classes.LeaderboardPosTab}>
+          <div className={classes.LeaderboardPosStats}>
             7
           </div>
-          <div className="LeaderboardPos">
+          <div className={classes.LeaderboardPos}>
             <strong>
               Your leaderboard position 
             </strong>
@@ -52,7 +52,7 @@ function HomePage() {
       </h2>
       <br />
 
-      <div className="LeaderboardHome">
+      <div className={classes.LeaderboardHome}>
       </div>
     </div>
   );

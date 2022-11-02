@@ -2,7 +2,7 @@ body {
   /* background-color: #D9D9D9; */
 }
 
-#homeButton {
+.homeButton {
   width: 50px;
   text-align: center;
   color: blue;
@@ -10,21 +10,21 @@ body {
   border: none;
 }
 
-#startQuizButton {
+.startQuizButton {
   width: 100px;
   text-align: center;
   color: red;
   border: none;
 }
 
-#leaderboardButton {
+.leaderboardButton {
   width: 100px;
   text-align: center;
   color: black;
   border: none;
 }
 
-#accountButton {
+.accountButton {
   float: right;
   width: 60px;
   text-align: center;
