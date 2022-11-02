@@ -23,7 +23,7 @@ function QuizPage() {
   useEffect(() => {
     const type: "timed" | "unlimited" = location.state?.type;
     if (!type) {
-      // navigate("/");
+      navigate("/");
     }
     setGameType(type);
     setGameReady(true);
@@ -61,7 +61,7 @@ function QuizPage() {
 
   return (
     <>
-      <QuizHeader type={"timed"} qnNumber={qnNumber} timeRemaining={5} onEnd={() => {}} maxQnNumber={10} />
+      <QuizHeader type={gameType} qnNumber={qnNumber} timeRemaining={5} onEnd={() => {}} maxQnNumber={10} />
       <div className={classes.outerContainer}>{currentQC}</div>
     </>
   );

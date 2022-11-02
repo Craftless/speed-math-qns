@@ -21,6 +21,7 @@ import { useLogout } from "./hooks/useLogout";
 import RegularHeader from "./components/RegularHeader";
 import QuizPage from "./pages/QuizPage";
 import QuizHeader from "./components/QuizHeader";
+import ChooseQuizTypePage from "./pages/ChooseQuizTypePage";
 
 function App() {
   return <Root />;
@@ -73,7 +74,7 @@ function Root() {
             )}
             {user && <Route path="/account" element={<AccountPage />} />}
             {user && <Route path="/quiz" element={<QuizPage />} />}
-            {user && <Route path="/chooseQuizType" element={<QuizPage />} />}
+            {user && <Route path="/chooseQuizType" element={<ChooseQuizTypePage />} />}
           </Routes>
         </>
       )}
