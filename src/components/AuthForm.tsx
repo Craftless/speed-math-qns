@@ -8,6 +8,7 @@ import { AuthContext } from "../store/AuthContext";
 import { createUser, logIn } from "../util/auth";
 import classes from "./AuthForm.module.css";
 import InputField from "./InputField";
+import LoadingSpinner from "./LoadingSpinner";
 
 function AuthForm() {
   const authCtx = useContext(AuthContext);
@@ -81,9 +82,14 @@ function AuthForm() {
     setIsLogin((prevState) => !prevState);
     resetEmail();
     resetPassword();
+    resetDisplayName();
   };
 
-  return (
+  return loginIsPending || signupIsPending ? (
+    <div className={classes.outerContainer}>
+      <LoadingSpinner height={200} width={200}/>
+    </div>
+  ) : (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
         <h1 className={classes.loginFormTitle}>Speed Math!</h1>

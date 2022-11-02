@@ -17,7 +17,7 @@
   background: none;
 }
 
-.outerContainer ul *:hover {
+.outerContainerHover ul *:hover {
   color: rgb(115, 115, 115);
   cursor: pointer;
 }
@@ -47,6 +47,11 @@
 .logoutButton {
   color: red;
   font-weight: 500;
+}
+
+.logoutButton:hover {
+  color: rgb(255, 108, 108);
+  cursor: pointer;
 }
 
 .link {

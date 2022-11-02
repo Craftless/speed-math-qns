@@ -6,14 +6,14 @@ import classes from "./SharedHeader.module.css";
 function RegularHeader() {
   const { logout, error } = useLogout();
   return (
-    <div className={classes.outerContainer}>
+    <div className={`${classes.outerContainer} ${classes.outerContainerHover}`}>
       <div className={classes.headerContainer}>
         <Link to="/" className={classes.header}>Speed Math</Link>
       </div>
       <div className={classes.linksContainer}>
         <ul>
           <li>
-            <Link to="/quiz" className={classes.link}>Start quiz</Link>
+            <Link to="/chooseQuizType" className={classes.link}>Start quiz</Link>
           </li>
           <li>
             <Link to="/leaderboard" className={classes.link}>Leaderboard</Link>
