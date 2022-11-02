@@ -11,10 +11,11 @@ function QuizComponent({
 }: {
   qn: string;
   ans: number;
-  onOver: (correct: boolean) => void;
+  onOver: (type: "correct" | "wrong" | "skipped") => void;
   range?: number;
 }) {
   const [answers, setAnswers] = useState([] as number[]);
+  const colours = ["#15961A", "#EE6D6D", "#1EAEFF", "#6D7600"];
 
   useEffect(() => {
     let answers = generateOptions(
@@ -46,19 +47,35 @@ function QuizComponent({
 
   return (
     <div className={classes.outerContainer}>
+      <div className={classes.statusContainer}><p>Score: 5  </p></div>
       <div className={classes.questionContainer}>
-        <p>{qn}</p>
+        <div className={classes.questionInnerContainer}>
+          <p>What is {qn}?</p>
+        </div>
       </div>
       <div className={classes.optionsContainer}>
-        {answers.map((val) => (
-          <Option
-            onPress={() => {
-              onOver(checkAnswer(val));
-            }}
-          >
-            {String(val)}
-          </Option>
-        ))}
+        <div className={classes.gridContainer}>
+          {answers.map((val, index) => (
+            <Option
+              onPress={() => {
+                onOver(checkAnswer(val) ? "correct" : "wrong");
+              }}
+              color={colours[index]}
+            >
+              <p>{String(val)}</p>
+            </Option>
+          ))}
+        </div>
+      </div>
+      <div className={classes.skipBtnContainer}>
+        <button
+          onClick={() => {
+            onOver("skipped");
+          }}
+          className={classes.skipBtn}
+        >
+          Skip
+        </button>
       </div>
     </div>
   );
