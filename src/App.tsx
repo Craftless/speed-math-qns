@@ -5,14 +5,16 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import { Provider } from "react-redux";
 import LoadingSpinner from "./components/LoadingSpinner";
 import RegularHeader from "./components/RegularHeader";
-import AccountPage from "./pages/AccountPage";
 import AuthPage from "./pages/AuthPage";
-import ChooseQuizTypePage from "./pages/ChooseQuizTypePage";
-import GameOverPage from "./pages/GameOverPage";
-import HomePage from "./pages/HomePage";
-import LeaderboardPage from "./pages/LeaderboardPage";
-import QuizPage from "./pages/QuizPage";
 import { store } from "./store/redux/store";
+import { lazy, Suspense } from "react";
+
+const GameOverPage = lazy(() => import("./pages/GameOverPage"));
+const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
+const QuizPage = lazy(() => import("./pages/QuizPage"));
+const ChooseQuizTypePage = lazy(() => import("./pages/ChooseQuizTypePage"));
+const AccountPage = lazy(() => import("./pages/AccountPage"));
+const HomePage = lazy(() => import("./pages/HomePage"));
 
 function App() {
   return (
@@ -30,20 +32,31 @@ function Root() {
     <div className="App">
       {authIsReady && (
         <>
-          {location.pathname !== "/quiz" && user && <RegularHeader />}
-          <Routes>
-            <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/" element={user ? <HomePage /> : <AuthPage />} />
-            {user && (
-              <Route path="/leaderboard" element={<LeaderboardPage />} />
-            )}
-            {user && <Route path="/account" element={<AccountPage />} />}
-            {user && <Route path="/quiz" element={<QuizPage />} />}
-            {user && <Route path="/gameOver" element={<GameOverPage />} />}
-            {user && (
-              <Route path="/chooseQuizType" element={<ChooseQuizTypePage />} />
-            )}
-          </Routes>
+          <Suspense
+            fallback={
+              <div className="outerContainer">
+                <LoadingSpinner width={75} height={75} borderWidth={10} />
+              </div>
+            }
+          > 
+            {location.pathname !== "/quiz" && user && <RegularHeader />}
+            <Routes>
+              <Route path="*" element={<Navigate to="/" />} />
+              <Route path="/" element={user ? <HomePage /> : <AuthPage />} />
+              {user && (
+                <Route path="/leaderboard" element={<LeaderboardPage />} />
+              )}
+              {user && <Route path="/account" element={<AccountPage />} />}
+              {user && <Route path="/quiz" element={<QuizPage />} />}
+              {user && <Route path="/gameOver" element={<GameOverPage />} />}
+              {user && (
+                <Route
+                  path="/chooseQuizType"
+                  element={<ChooseQuizTypePage />}
+                />
+              )}
+            </Routes>
+          </Suspense>
         </>
       )}
       {!authIsReady && (
