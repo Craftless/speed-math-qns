@@ -5,6 +5,22 @@
   justify-content: center;
   align-items: center;
 
+  align-items: center;
+}
+
+.formContainer {
+  width: 75%;
+  border-radius: 20px;
+  margin: auto;
+
+  align-content: center;
+
+  padding-top: 10px;
+  padding-bottom: 20px;
+
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .actualForm {
@@ -16,6 +32,7 @@
   font-size: 1rem;
   flex-shrink: 1;
   justify-content: space-evenly;
+  margin: auto;
 
   width: 50%;
 }

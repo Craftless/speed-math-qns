@@ -1,48 +1,24 @@
-import "./HomePage.module.css";
+import classes from "./HomePage.module.css";
 
 function HomePage() {
   return (
-    <div className="outerContainer">
-      <div className="StatisticsTable">
-        <div className="GameCountTab">
-          <div className="GameCountStats">
-            25
-          </div>
-          <div className="GamesCount">
-            <strong>
-              Games played 
-            </strong>
-          </div>
+    <div className={classes.outerContainer}>
+      <div className={classes.statsTable}>
+        <div className={classes.statsTab}>
+          <p className={classes.statsData}>25</p>
+          <strong className={classes.statsLabel}>Games played</strong>
         </div>
-        <div className="TotalUsersTab">
-          <div className="TotalUsersStats">
-            75
-          </div>
-          <div className="TotalUsers">
-            <strong>
-              Total users 
-            </strong> 
-          </div>
+        <div className={classes.statsTab}>
+          <p className={classes.statsData}>{"TODO: make this retrieve from firebase?"}</p>
+          <strong className={classes.statsLabel}>Total users</strong>
         </div>
-        <div className="AverageScoreTab">
-          <div className="AverageScoreStats">
-            88%
-          </div>
-          <div className="AverageScore">
-            <strong>
-              Your score 
-            </strong>
-          </div>
+        <div className={classes.statsTab}>
+        <p className={classes.statsData}>(PLACEHOLDER) 88%</p>
+          <strong className={classes.statsLabel}>Your average score</strong>
         </div>
-        <div className="LeaderboardPosTab">
-          <div className="LeaderboardPosStats">
-            7
-          </div>
-          <div className="LeaderboardPos">
-            <strong>
-              Your leaderboard position 
-            </strong>
-          </div>
+        <div className={classes.statsTab}>
+          <p className={classes.statsData}>(PLACEHOLDER) 7</p>
+          <strong className={classes.statsLabel}>Your leaderboard position</strong>
         </div>
       </div>
       <br />

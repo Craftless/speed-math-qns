@@ -4,9 +4,6 @@
   height: 100%;
   justify-content: center;
   align-items: center;
-
-  background-image: url("https://images.pexels.com/photos/2286895/pexels-photo-2286895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-  background-size: cover;
 }
 
 .loginFormTitle {
@@ -31,7 +28,7 @@
   flex-direction: column;
   align-items: center;
   font-size: 1rem;
-  max-height: 70vh;
+  max-height: 100vh;
   flex-shrink: 1;
 
   background: rgba(255, 255, 255, 0.3);
