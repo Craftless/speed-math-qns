@@ -1,4 +1,7 @@
 .App {
+  background-image: url( "https://i.natgeofe.com/n/737e4cbf-3d9e-4f89-b4b2-29b5cf303dba/01-best_pod_landscapes_16x9.jpg" );
+  background-size: cover;
+
   text-align: center;
   /* background-color: yellow; */
   /* width: 100vw; */
