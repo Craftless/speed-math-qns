@@ -6,32 +6,18 @@ import firebase from "firebase/compat/app";
 import classes from "./LeaderboardPage.module.css";
 import { fetchDisplayNameAndPhotoURLFromUid } from "../util/auth";
 
-class PlayerRepresentation {
-  name: string;
-  score: number;
-
-  constructor(name: string, score: number) {
-    this.name = name;
-    this.score = score;
-  }
+interface PlayerRepresentation {
+  rank: number;
+  displayName: string;
+  pfpUrl: string;
+  totalScore: number;
+  userId: string;
 }
-
-// Unfortunately, I have to use regular arrays here
-// because states would "exceed the maximum update depth"
-var leaderboardArray: JSX.Element[];
-var players: PlayerRepresentation[];
 
 function LeaderboardPage() {
   const [leaderboardArray, setLeaderboardArray] = useState(
-    [] as {
-      rank: number;
-      displayName: string;
-      pfpUrl: string;
-      totalScore: number;
-      userId: string;
-    }[]
+    [] as PlayerRepresentation[]
   );
-  const [players, setPlayers] = useState([] as PlayerRepresentation[]);
 
   useEffect(() => {
     (async () => {
@@ -55,7 +41,7 @@ function LeaderboardPage() {
       const objArr = data.map((val) => val.data());
       // const data = await projectFirestore.collection('lbTotalScore').orderBy(firebase.firestore.FieldPath.documentId()).limit(3).get();
 
-      console.log("obj", objArr);
+      // Format the data
       let finalObj: {
         [uid: string]: number;
       } = {};
@@ -70,15 +56,11 @@ function LeaderboardPage() {
         };
       });
 
+      // Sort by score
       finalArr.sort((a, b) => b.totalScore - a.totalScore);
 
-      const lbArr: {
-        rank: number;
-        displayName: string;
-        pfpUrl: string;
-        totalScore: number;
-        userId: string;
-      }[] = [];
+      // Construct array of PlayerRepresentations
+      const lbArr: PlayerRepresentation[] = [];
 
       await Promise.all(
         finalArr.map(async (item, index) => {
@@ -97,37 +79,8 @@ function LeaderboardPage() {
 
       setLeaderboardArray(lbArr);
       console.log("Arr", lbArr);
-
-      // objArr.map(val => {
-      //   Object.keys(val)
-      // })
-
-      // setPlayers(data)
-
-      // 2. Construct array of PlayerRepresentations?
-      // players = [
-      //   new PlayerRepresentation("a", 523),
-      //   new PlayerRepresentation("de", 444),
-      // ];
-
-      // 3. Sort by score
-      // players.sort((a, b) => {
-      //   return b.score - a.score;
-      // });
-
-      // 4. Add <LeaderboardEntry /> elements
-      // for (var i: number = 1; i <= players.length; i++) {
-      //   var player: PlayerRepresentation = players[i - 1];
-      //   leaderboardArray.push(
-      //     <LeaderboardEntry
-      //       position={i}
-      //       name={player.name}
-      //       score={player.score}
-      //     />
-      //   );
-      // }
     })();
-  }, [players]);
+  }, []);
 
   return (
     <div className={classes.outerContainer}>
@@ -135,16 +88,28 @@ function LeaderboardPage() {
       {leaderboardArray.length > 0 && (
         <div className={classes.mainContainer}>
           <div className={classes.leaderboardContainer}>
-            {leaderboardArray.map((val) => (
-              <LeaderboardEntry
-                position={val.rank}
-                name={val.displayName}
-                score={val.totalScore}
-                key={val.userId}
-              />
+            <div className={classes.topBarContainer}>
+              <p>Rank</p>
+              <p>Name</p>
+              <p>Total Score</p>
+            </div>
+            {leaderboardArray.map((val, index, arr) => (
+              <>
+                {/* {index < arr.length - 1 && ( */}
+                <div className={classes.separator} />
+                {/* )} */}
+                <LeaderboardEntry
+                  position={val.rank}
+                  name={val.displayName}
+                  score={val.totalScore}
+                  key={val.userId}
+                />
+              </>
             ))}
           </div>
-          <p>To refresh the leaderboard, reload the page.</p>
+          <div className={classes.hintTextContainer}>
+            <p>To refresh the leaderboard, reload the page.</p>
+          </div>
         </div>
       )}
       {leaderboardArray.length <= 0 && (

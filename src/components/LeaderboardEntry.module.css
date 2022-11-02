@@ -1,14 +1,22 @@
 .row {
-	display: block;
+	/* display: block;
 	width: 95%;
+	margin: auto;*/
 	height: 40px;
 
-  margin: auto;
-
-	border-bottom: 1px solid #AFAFAF;
+	/* border-bottom: 1px solid #AFAFAF; */
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 }
 
-.position {
+.row > * {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* .position {
   position: relative;
   display: inline-block;
   width: 25%;
@@ -25,4 +33,4 @@
 	position: relative;
 	display: inline-block;
 	width: 25%;
-}
+} */

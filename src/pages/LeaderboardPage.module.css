@@ -30,3 +30,30 @@
   flex-direction: column;
   /* justify-content: center; */
 }
+
+.topBarContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 10px;
+}
+
+.separator {
+  height: 1px;
+  width: 100%;
+  background-color: #909090;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* padding: 16px 0; */
+  flex: 1;
+}
+
+.hintTextContainer {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
