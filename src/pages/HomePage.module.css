@@ -1,77 +1,3 @@
-/* .GameCountStats {
-  font-size: 48px;
-}
-
-.GamesCount {
-  font-size: 15px;
-}
-
-.TotalUsersStats {
-  font-size: 48px;
-}
-
-.TotalUsers {
-  font-size: 15px;
-}
-
-.AverageScoreStats {
-  font-size: 48px;
-}
-
-.AverageScore {
-  font-size: 15px;
-}
-
-.LeaderboardPosStats {
-  font-size: 48px;
-}
-
-.LeaderboardPos {
-  font-size: 15px;
-}
-
-.StatisticsTable {
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  background-color: #CECECE;
-}
-
-.GameCountTab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.TotalUsersTab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.AverageScoreTab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.LeaderboardPosTab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#LeaderboardHome {
-  width: 100%;
-}
-
-strong {
-  border: 1px;
-  border-style: solid;
-  font-size: 15px;
-} */
-
 .outerContainer {
   height: 100%;
   background-size: cover;
@@ -80,6 +6,25 @@ strong {
 }
 
 .statsTable {
+  width: 75%;
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 20px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding-top: 10px;
+  padding-bottom: 20px;
+
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  display: flex;
+}
+
+.miniLeaderboard {
   width: 75%;
   border-radius: 20px;
   margin: auto;
