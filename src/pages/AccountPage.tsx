@@ -1,6 +1,8 @@
+import { reauthenticateWithCredential } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import { useAuthContext } from "../hooks/useAuthContext";
+import firebase from "firebase/compat/app";
 import classes from "./AccountPage.module.css";
 
 function AccountPage() {
@@ -10,6 +12,10 @@ function AccountPage() {
   async function tryDeleteAccount() {
     if (window.confirm("Are you sure you want to delete your account?")) {
       try {
+        const password = prompt("What is your password?");
+        if (!password) return;
+        const credentials = firebase.auth.EmailAuthProvider.credential(user!.email!, password);
+        await user?.reauthenticateWithCredential(credentials)
         await user!.delete();
       } catch (e: any) {
         alert(e.code + e.message);
@@ -22,11 +28,11 @@ function AccountPage() {
       <div className={classes.formContainer}>
         <div className={classes.detailsContainer}>
           <div className={classes.detailsInnerContainer}>
-            <p style={{ textAlign: "right" }}>Current display name: </p>
+            <p style={{ textAlign: "right", fontWeight: "bold" }}>Current display name: </p>
             <p className={classes.nameText}>{user?.displayName}</p>
           </div>
           <div className={classes.detailsInnerContainer}>
-            <p style={{ textAlign: "right" }}>Email: </p>
+            <p style={{ textAlign: "right", fontWeight: "bold" }}>Email: </p>
             <p className={classes.emailText}>{user?.email}</p>
           </div>
         </div>
