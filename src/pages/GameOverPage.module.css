@@ -54,3 +54,8 @@
   background-image: linear-gradient(100deg, rgb(0, 102, 255), rgb(0, 217, 255));
   filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
 }
+
+.backButton:hover {
+  background-image: linear-gradient(100deg, rgb(46, 129, 255),rgb(48, 224, 255));
+  cursor: pointer;
+}
