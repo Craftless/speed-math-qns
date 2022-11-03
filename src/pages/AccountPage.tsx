@@ -5,6 +5,16 @@ import classes from "./AccountPage.module.css";
 function AccountPage() {
   const { user } = useAuthContext();
 
+  async function tryDeleteAccount() {
+    if (window.confirm("Are you sure you want to delete your account?")) {
+      try {
+        await user!.delete();
+      } catch (e: any) {
+        alert(e.code + e.message);
+      }
+    }
+  }
+
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
@@ -32,18 +42,11 @@ function AccountPage() {
           >
             Reset Password
           </button>
-
           <button
-            className={classes.genericBtn}
-            onClick={async () => {
-              try {
-                await user!.delete();
-              } catch (e: any) {
-                alert(e.code + e.message);
-              }
-            }}
+            className={classes.deleteAccountButton}
+            onClick={tryDeleteAccount}
           >
-            Delete Account
+            ⚠️ Delete Account
           </button>
         </div>
       </div>

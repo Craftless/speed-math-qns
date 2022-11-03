@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate
+} from "react-router-dom";
 import classes from "./GameOverPage.module.css";
 
 function GameOverPage() {
