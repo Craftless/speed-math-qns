@@ -28,7 +28,8 @@ function EditAccountDetailsPage() {
     displayNameRegular.inputTouchedHandler();
   }
 
-  const formIsValid = displayNameRegular.isValid;
+  const formIsValid =
+    displayNameRegular.isValid && emailRegular.isValid && emailConfirm.isValid;
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
@@ -38,10 +39,12 @@ function EditAccountDetailsPage() {
             e.preventDefault();
             if (formIsValid) {
               resetDisplayName();
-              await updateUserProfile(user!, {
-                displayName: displayNameRegular.value,
-              });
-              await user!.updateEmail(emailRegular.value);
+              await Promise.all([
+                updateUserProfile(user!, {
+                  displayName: displayNameRegular.value,
+                }),
+                user!.updateEmail(emailRegular.value),
+              ]);
               navigate("/account", { replace: true });
             } else {
               setAllTouched();
