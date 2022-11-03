@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import { useAuthContext } from "../hooks/useAuthContext";
 import classes from "./AccountPage.module.css";
 
 function AccountPage() {
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   async function tryDeleteAccount() {
     if (window.confirm("Are you sure you want to delete your account?")) {
@@ -28,7 +30,17 @@ function AccountPage() {
             <p className={classes.emailText}>{user?.email}</p>
           </div>
         </div>
+
         <div className={classes.btnsContainer}>
+          <button
+            className={`${classes.genericBtn} ${classes.editBtn}`}
+            onClick={() => {
+              navigate("/editaccount");
+            }}
+          >
+            Edit Account
+          </button>
+
           <button
             className={classes.genericBtn}
             onClick={async () => {

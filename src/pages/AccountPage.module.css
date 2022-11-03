@@ -50,6 +50,15 @@
   cursor: pointer;
 }
 
+.genericBtn:hover {
+  border: 3px solid rgb(226, 67, 120);
+}
+
+.disabledBtn {
+  background-image: linear-gradient(100deg, rgb(79, 79, 79), rgb(138, 138, 138));
+  color: white;
+}
+
 .deleteAccountButton {
   margin: 8px 20px;
   padding: 16px 100px;
@@ -67,15 +76,13 @@
   cursor: pointer;
 }
 
-.disabledBtn {
+.deleteAccountButton:hover {
   background-image: linear-gradient(
     100deg,
-    rgb(79, 79, 79),
-    rgb(138, 138, 138)
-  );
-  color: white;
+    rgb(255, 53, 53),
+    rgb(207, 92, 150))
+    ;
 }
-
 
 .fieldContainer {
   display: grid;
@@ -93,6 +100,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .detailsContainer {
   margin-bottom: 15px;
   font-size: 18px;
@@ -116,4 +124,13 @@
 
 .nameText {
   text-align: left;
+}
+
+.editBtn {
+  border-color: green;
+  color: green;
+}
+
+.editBtn:hover {
+  border-color: darkgreen;
 }
