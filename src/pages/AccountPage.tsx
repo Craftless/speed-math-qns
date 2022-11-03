@@ -1,6 +1,8 @@
+import { reauthenticateWithCredential } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import { useAuthContext } from "../hooks/useAuthContext";
+import firebase from "firebase/compat/app";
 import classes from "./AccountPage.module.css";
 
 function AccountPage() {
@@ -10,6 +12,10 @@ function AccountPage() {
   async function tryDeleteAccount() {
     if (window.confirm("Are you sure you want to delete your account?")) {
       try {
+        const password = prompt("What is your password?");
+        if (!password) return;
+        const credentials = firebase.auth.EmailAuthProvider.credential(user!.email!, password);
+        await user?.reauthenticateWithCredential(credentials)
         await user!.delete();
       } catch (e: any) {
         alert(e.code + e.message);
