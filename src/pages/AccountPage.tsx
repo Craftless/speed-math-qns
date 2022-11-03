@@ -6,38 +6,48 @@ import classes from "./AccountPage.module.css";
 
 function AccountPage() {
   const { user } = useAuthContext();
-  const { regular: displayNameRegular, reset: resetDisplayName } = useInput(
+  const { regular: displayNameChangeInput, reset: resetDisplayName } = useInput(
     (val) => val.trim().length > 2,
     "Please provide a display name longer than 2 characters."
   );
 
   function setAllTouched() {
-    displayNameRegular.inputTouchedHandler();
+    displayNameChangeInput.inputTouchedHandler();
   }
 
-  const formIsValid = displayNameRegular.isValid;
+  function submitNameChangeForm( e: any )
+  {
+    e.preventDefault();
+
+    if ( formIsValid )
+    {
+      resetDisplayName();
+      projectFirestore.collection("users").doc(user?.uid!).set(
+        { displayName: displayNameChangeInput.value },
+        { merge: true }
+      );
+    } 
+    else
+    {
+      // ???
+      setAllTouched();
+    }
+  }
+
+  const formIsValid = displayNameChangeInput.isValid;
 
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
-        <form
-          className={classes.actualForm}
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (formIsValid) {
-              resetDisplayName();
-              projectFirestore.collection("users").doc(user?.uid!).set(
-                {
-                  displayName: displayNameRegular.value,
-                },
-                { merge: true }
-              );
-            } else {
-              setAllTouched();
-            }
-          }}
+        <div className={classes.detailsContainer}>
+          <p><strong>Current display name: </strong>{user?.displayName}</p>
+          <p><strong>Email: </strong>{user?.email}</p>
+        </div>
+
+        <form className={classes.actualForm}
+          onSubmit={ (e) => submitNameChangeForm( e ) }
         >
-          <InputField label="Display Name" valueInput={displayNameRegular} />
+          <InputField label="Display Name" valueInput={displayNameChangeInput} />
           <button
             className={`${classes.saveChangesBtn} ${
               !formIsValid ? classes.disabledBtn : ""

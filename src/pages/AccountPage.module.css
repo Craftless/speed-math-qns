@@ -71,3 +71,8 @@
   background-image: linear-gradient(100deg, rgb(79, 79, 79), rgb(138, 138, 138));
   color: white;
 }
+
+.detailsContainer {
+  margin-bottom: 15px;
+  font-size: 18px;
+}

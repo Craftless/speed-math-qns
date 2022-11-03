@@ -34,6 +34,8 @@ function GameOverPage() {
           <p>Wrong: {data.numWrong}</p>
           <p>Skipped: {data.numSkipped}</p>
           <p>Penalty: {data.penalty ? "-5" : "No penalty"}</p>
+
+          <p>Final score: {"TODO"}</p>
         </div>
       </div>
     </div>
