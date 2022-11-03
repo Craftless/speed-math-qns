@@ -18,14 +18,39 @@
 
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
-  width: 50%;
+  width: 30%;
   -webkit-backdrop-filter: blur(10px);
 
-  padding: 16px 32px;
+  padding: 20px 32px;
+}
+
+.scoreBreakdownOuterContainer > h1 {
+  font-size: 2rem;
+
+  color: rgb(207, 12, 12);
+
+  margin-bottom: 10px;
 }
 
 .scoreTextContainer {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 16px;
+  margin-bottom: 4px;
+}
+
+.scoreDetailsContainer {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.backButton {
+  border-radius: 16px;
+  font-size: 1.2rem;
+  padding: 15px 25px;
+  border: 0px;
+
+  color: white;
+
+  background-image: linear-gradient(100deg, rgb(0, 102, 255), rgb(0, 217, 255));
+  filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
 }
