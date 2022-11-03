@@ -14,6 +14,9 @@ const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
 const QuizPage = lazy(() => import("./pages/QuizPage"));
 const ChooseQuizTypePage = lazy(() => import("./pages/ChooseQuizTypePage"));
 const AccountPage = lazy(() => import("./pages/AccountPage"));
+const EditAccountDetailsPage = lazy(
+  () => import("./pages/EditAccountDetailsPage")
+);
 const HomePage = lazy(() => import("./pages/HomePage"));
 
 function App() {
@@ -38,7 +41,7 @@ function Root() {
                 <LoadingSpinner width={75} height={75} borderWidth={10} />
               </div>
             }
-          > 
+          >
             {location.pathname !== "/quiz" && user && <RegularHeader />}
             <Routes>
               <Route path="*" element={<Navigate to="/" />} />
@@ -47,6 +50,12 @@ function Root() {
                 <Route path="/leaderboard" element={<LeaderboardPage />} />
               )}
               {user && <Route path="/account" element={<AccountPage />} />}
+              {user && (
+                <Route
+                  path="/editaccount"
+                  element={<EditAccountDetailsPage />}
+                />
+              )}
               {user && <Route path="/quiz" element={<QuizPage />} />}
               {user && <Route path="/gameOver" element={<GameOverPage />} />}
               {user && (

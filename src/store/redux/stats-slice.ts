@@ -5,6 +5,9 @@ const initial = {
   globalTGP: null as number | null,
   personalTGP: null as number | null,
   totalScore: null as number | null,
+  totalCorrect: null as number | null,
+  totalWrong: null as number | null,
+  totalSkipped: null as number | null,
   hasData: false,
 };
 
@@ -28,6 +31,18 @@ const leaderboardSlice = createSlice({
       state.totalScore = action.payload.totalScore;
       state.hasData = true;
     },
+    setTotalCorrect(state, action: { payload: { totalCorrect: number } }) {
+      state.totalCorrect = action.payload.totalCorrect;
+      state.hasData = true;
+    },
+    setTotalWrong(state, action: { payload: { totalWrong: number } }) {
+      state.totalWrong = action.payload.totalWrong;
+      state.hasData = true;
+    },
+    setTotalSkipped(state, action: { payload: { totalSkipped: number } }) {
+      state.totalSkipped = action.payload.totalSkipped;
+      state.hasData = true;
+    },
     reset(state, action) {
       state.totalUsers = initial.totalUsers;
       state.globalTGP = initial.globalTGP;
@@ -40,5 +55,8 @@ export const setTotalUsers = leaderboardSlice.actions.setTotalUsers;
 export const setGlobalTGP = leaderboardSlice.actions.setGlobalTGP;
 export const setPersonalTGP = leaderboardSlice.actions.setPersonalTGP;
 export const setTotalScore = leaderboardSlice.actions.setTotalScore;
+export const setTotalCorrect = leaderboardSlice.actions.setTotalCorrect;
+export const setTotalWrong = leaderboardSlice.actions.setTotalWrong;
+export const setTotalSkipped = leaderboardSlice.actions.setTotalSkipped;
 export const reset = leaderboardSlice.actions.reset;
 export default leaderboardSlice.reducer;

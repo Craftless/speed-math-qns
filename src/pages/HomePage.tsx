@@ -7,8 +7,11 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import {
   setGlobalTGP,
   setPersonalTGP,
+  setTotalCorrect,
   setTotalScore,
+  setTotalSkipped,
   setTotalUsers as setTU,
+  setTotalWrong,
 } from "../store/redux/stats-slice";
 import classes from "./HomePage.module.css";
 
@@ -21,9 +24,18 @@ function HomePage() {
     NaN as number
   );
   const [personalTotalScore, setPersonalTotalScore] = useState(NaN as number);
+  const [personalTotalCorrect, setPersonalTotalCorrect] = useState(
+    NaN as number
+  );
+  const [personalTotalWrong, setPersonalTotalWrong] = useState(NaN as number);
+  const [personalTotalSkipped, setPersonalTotalSkipped] = useState(
+    NaN as number
+  );
   const stats = useAppSelector((store) => store.stats);
   const dispatch = useAppDispatch();
   const { user } = useAuthContext();
+
+  // TODO Refactor to make code less repetitive
 
   useEffect(() => {
     if (stats.hasData) {
@@ -31,6 +43,9 @@ function HomePage() {
       setPersonalTotalScore(stats.totalScore!);
       setPersonalTotalGamesPlayed(stats.personalTGP!);
       setGlobalTotalGamesPlayed(stats.globalTGP!);
+      setPersonalTotalCorrect(stats.totalCorrect!);
+      setPersonalTotalWrong(stats.totalWrong!);
+      setPersonalTotalSkipped(stats.totalSkipped!);
     } else {
       (async () => {
         try {
@@ -49,14 +64,23 @@ function HomePage() {
           const tgp: number = globalStats!.totalGamesPlayed;
           const personalTgp: number = personalStats!.totalGamesPlayed;
           const personalTotalScore: number = personalStats!.totalScore;
+          const personalTotalCorrect: number = personalStats!.totalCorrect;
+          const personalTotalWrong: number = personalStats!.totalWrong;
+          const personalTotalSkipped: number = personalStats!.totalSkipped;
           setTotalUsers(tu);
           setGlobalTotalGamesPlayed(tgp);
           setPersonalTotalGamesPlayed(personalTgp);
           setPersonalTotalScore(personalTotalScore);
+          setPersonalTotalCorrect(personalTotalCorrect);
+          setPersonalTotalWrong(personalTotalWrong);
+          setPersonalTotalSkipped(personalTotalSkipped);
           dispatch(setTU({ totalUsers: tu }));
           dispatch(setGlobalTGP({ globalTGP: tgp }));
           dispatch(setPersonalTGP({ personalTGP: personalTgp }));
           dispatch(setTotalScore({ totalScore: personalTotalScore }));
+          dispatch(setTotalCorrect({ totalCorrect: personalTotalCorrect }));
+          dispatch(setTotalWrong({ totalWrong: personalTotalWrong }));
+          dispatch(setTotalSkipped({ totalSkipped: personalTotalSkipped }));
         } catch (e) {
           alert(e);
         }
@@ -67,7 +91,9 @@ function HomePage() {
   return (
     <div className={classes.outerContainer}>
       <div className={classes.statsOuterContainer}>
-        <div className={classes.statsTextContainer}><h2>Statistics</h2></div>
+        <div className={classes.statsTextContainer}>
+          <h2>Statistics</h2>
+        </div>
         <div className={classes.statsTable}>
           <StatDisplay
             value={globalTotalGamesPlayed}
@@ -79,19 +105,27 @@ function HomePage() {
             value={personalTotalGamesPlayed}
             label="Your Total Games Played"
           />
-          <div className={classes.statsTab}>
-            <strong className={classes.statsLabel}>
-              Your leaderboard position
-            </strong>
-            <p className={classes.statsData}>(PLACEHOLDER) 7</p>
-          </div>
+          <StatDisplay
+            value={personalTotalCorrect}
+            label="Your Total Questions Correct"
+          />
+          <StatDisplay
+            value={personalTotalWrong}
+            label="Your Total Questions Wrong"
+          />
+          <StatDisplay
+            value={personalTotalSkipped}
+            label="Your Total Questions Skipped"
+          />
         </div>
       </div>
-      <div className={classes.miniLeaderboard}>
+      {/* <div className={classes.miniLeaderboard}>
         <h2>Top 5</h2>
-      </div>
+      </div> */}
 
-      <div className="LeaderboardHome"></div>
+      <div className={classes.hintTextContainer}>
+        <p>To refresh the statistics, reload the page.</p>
+      </div>
     </div>
   );
 }

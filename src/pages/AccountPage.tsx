@@ -1,64 +1,57 @@
+import { useState } from "react";
 import InputField from "../components/InputField";
 import { auth, projectFirestore } from "../firebase/config";
 import useInput from "../hooks/use-input";
 import { useAuthContext } from "../hooks/useAuthContext";
+import EditableLabel from "react-inline-editing";
 import classes from "./AccountPage.module.css";
+import { updateUserProfile } from "../util/auth";
 
 function AccountPage() {
   const { user } = useAuthContext();
-  const { regular: displayNameRegular, reset: resetDisplayName } = useInput(
-    (val) => val.trim().length > 2,
-    "Please provide a display name longer than 2 characters."
-  );
-
-  function setAllTouched() {
-    displayNameRegular.inputTouchedHandler();
-  }
-
-  const formIsValid = displayNameRegular.isValid;
 
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
-        <form
-          className={classes.actualForm}
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (formIsValid) {
-              resetDisplayName();
-              projectFirestore.collection("users").doc(user?.uid!).set(
-                {
-                  displayName: displayNameRegular.value,
-                },
-                { merge: true }
-              );
-            } else {
-              setAllTouched();
-            }
-          }}
-        >
-          <InputField label="Display Name" valueInput={displayNameRegular} />
+        <div className={classes.btnsContainer}>
           <button
-            className={`${classes.saveChangesBtn} ${
-              !formIsValid ? classes.disabledBtn : ""
-            }`}
+            className={classes.genericBtn}
+            onClick={async () => {
+              try {
+                await auth.sendPasswordResetEmail(user?.email!);
+                alert("Email sent!");
+              } catch (e: any) {
+                alert(e.code + e.message);
+              }
+            }}
           >
-            Save Changes
+            Reset Password
           </button>
-        </form>
-        <button
-          className={classes.genericBtn}
-          onClick={async () => {
-            try {
-              await auth.sendPasswordResetEmail(user?.email!);
-              alert("Email sent!");
-            } catch (e: any) {
-              alert(e.code + e.message);
-            }
-          }}
-        >
-          Reset Password
-        </button>
+          {/* <button
+            className={classes.genericBtn}
+            onClick={async () => {
+              try {
+                
+              } catch (e: any) {
+                alert(e.code + e.message);
+              }
+            }}
+          >
+            Reset Progress
+          </button> */}
+          <button
+            className={classes.genericBtn}
+            onClick={async () => {
+              try {
+                await user!.delete();
+              } catch (e: any) {
+                alert(e.code + e.message);
+              }
+            }}
+          >
+            Delete Account
+          </button>
+        </div>
       </div>
     </div>
   );

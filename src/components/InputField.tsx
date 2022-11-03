@@ -1,6 +1,4 @@
-import {
-  ChangeEventHandler, FocusEventHandler
-} from "react";
+import { ChangeEventHandler, FocusEventHandler } from "react";
 import classes from "./InputField.module.css";
 
 function InputField({
@@ -16,11 +14,16 @@ function InputField({
     hasError: boolean;
     valueChangeHandler: ChangeEventHandler<HTMLInputElement>;
     inputTouchedHandler: FocusEventHandler<HTMLInputElement>;
-    finalMessage: string
+    finalMessage: string;
   };
 }) {
-  const { value, hasError, valueChangeHandler, inputTouchedHandler, finalMessage } =
-    valueInput;
+  const {
+    value,
+    hasError,
+    valueChangeHandler,
+    inputTouchedHandler,
+    finalMessage,
+  } = valueInput;
   return (
     <div className={classes.formRow}>
       <div className={classes.wordsContainer}>
@@ -33,6 +36,7 @@ function InputField({
         onBlur={inputTouchedHandler}
         onChange={valueChangeHandler}
         type={isPassword ? "password" : "text"}
+        contentEditable={false}
       />
     </div>
   );
