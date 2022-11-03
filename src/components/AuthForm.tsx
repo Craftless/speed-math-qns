@@ -1,3 +1,4 @@
+import { buildTimeValue } from "@testing-library/user-event/dist/utils";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useInput from "../hooks/use-input";
@@ -7,11 +8,24 @@ import classes from "./AuthForm.module.css";
 import InputField from "./InputField";
 import LoadingSpinner from "./LoadingSpinner";
 
+// oh god
+const blacklist: string[] = [
+  "porn",
+  "mom",
+  "mother",
+  "mudder",
+  "shit",
+  "fuck",
+  "boobs",
+  "pussy",
+  "dick",
+  "penis"
+];
+
 function AuthForm() {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
 
-  // This part could actually be regex
   const {
     regular: emailRegular,
     confirm: emailConfirm,
@@ -30,9 +44,24 @@ function AuthForm() {
     "Please provide a password longer than 6 characters."
   );
 
+  function validateDisplayName( val: string ): boolean
+  {
+    // All inputs are invalid till proven otherwise
+
+    // Check for length
+    if ( val.trim().length < 2 ) return false;
+
+    for ( var blockedword of blacklist )
+    {
+      if ( val.includes( blockedword ) ) return false;
+    }
+
+    return true;
+  }
+
   const { regular: displayNameRegular, reset: resetDisplayName } = useInput(
-    (val) => val.trim().length > 2,
-    "Please provide a display name longer than 2 characters."
+    (val) => validateDisplayName( val ),
+    "Please provide a display name longer than 2 characters, and does not include vulgarities."
   );
 
   const formIsValid =
