@@ -14,7 +14,7 @@ function getRandomInt(min: number, max: number) {
 }
 
 export function generateQuestion(digits: number) {
-  const sign = operators[Math.floor(Math.random() * operators.length)];
+  const sign = operators[Math.floor(Math.random() * (digits > 2 ? operators.length - 1 : operators.length))];
   const max = Number("1" + Array(digits).fill(0).join(''));
   const first = Math.floor(Math.random() * max);
   const second = Math.floor(Math.random() * max);
@@ -35,6 +35,6 @@ export function shuffle(a: any[]) {
   return a;
 }
 
-export const operators = ["+", "-", "*", "/"];
+export const operators = ["+", "-", "/", "*"];
 
 

@@ -1,11 +1,6 @@
-import { useState } from "react";
-import InputField from "../components/InputField";
-import { auth, projectFirestore } from "../firebase/config";
-import useInput from "../hooks/use-input";
+import { auth } from "../firebase/config";
 import { useAuthContext } from "../hooks/useAuthContext";
-import EditableLabel from "react-inline-editing";
 import classes from "./AccountPage.module.css";
-import { updateUserProfile } from "../util/auth";
 
 function AccountPage() {
   const { user } = useAuthContext();
@@ -14,14 +9,14 @@ function AccountPage() {
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
         <div className={classes.detailsContainer}>
-          <p>
-            <strong>Current display name: </strong>
-            {user?.displayName}
-          </p>
-          <p>
-            <strong>Email: </strong>
-            {user?.email}
-          </p>
+          <div className={classes.detailsInnerContainer}>
+            <p style={{ textAlign: "right" }}>Current display name: </p>
+            <p className={classes.nameText}>{user?.displayName}</p>
+          </div>
+          <div className={classes.detailsInnerContainer}>
+            <p style={{ textAlign: "right" }}>Email: </p>
+            <p className={classes.emailText}>{user?.email}</p>
+          </div>
         </div>
         <div className={classes.btnsContainer}>
           <button

@@ -59,7 +59,7 @@ function QuizPage() {
     let tries = 0;
     while (answer % 1 !== 0) {
       const { question, finalAnswer } = generateQuestion(
-        Math.max(Math.floor(qnNumber / 4), 1)
+        Math.min(Math.max(Math.floor((qnNumber % 10) / 3), 1), 3)
       );
       answer = finalAnswer;
       qn = question;
@@ -165,7 +165,6 @@ function QuizPage() {
             ),
           writeIfTop20(),
         ]);
-        
       } catch (e) {
         console.log(e);
         alert(e);
@@ -190,7 +189,8 @@ function QuizPage() {
   useEffect(() => {
     if (qnNumber <= maxTTQns || gameType === "unlimited") {
       setCurrentQC(generateQuizComponent());
-      if (gameType === "unlimited") setTimeLeft(5);
+      if (gameType === "unlimited")
+        setTimeLeft(5 - Math.min(Math.floor(qnNumber / 20), 3));
     } else {
       gameOver();
     }
@@ -198,7 +198,7 @@ function QuizPage() {
 
   useEffect(() => {
     if (timeLeft <= 0) {
-      gameOver(false);
+      gameOver(gameType === "unlimited");
     }
   }, [timeLeft]);
 
@@ -212,7 +212,9 @@ function QuizPage() {
         type={gameType}
         qnNumber={qnNumber}
         timeRemaining={timeLeft}
-        onEnd={() => {}}
+        onEnd={() => {
+          gameOver(false);
+        }}
         maxQnNumber={10}
       />
       <div className={classes.outerContainer}>
