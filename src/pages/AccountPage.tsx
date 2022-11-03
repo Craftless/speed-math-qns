@@ -6,9 +6,11 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import EditableLabel from "react-inline-editing";
 import classes from "./AccountPage.module.css";
 import { updateUserProfile } from "../util/auth";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function AccountPage() {
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   async function tryDeleteAccount()
   {
@@ -38,7 +40,12 @@ function AccountPage() {
             {user?.email}
           </p>
         </div>
+
         <div className={classes.btnsContainer}>
+          <button className={classes.genericBtn} onClick={ () => { navigate( "/editaccount" ); } }>
+            Edit Account
+          </button>
+          
           <button
             className={classes.genericBtn}
             onClick={async () => {

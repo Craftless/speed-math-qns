@@ -58,6 +58,10 @@ function EditAccountDetailsPage() {
           >
             Save Changes
           </button>
+
+          <button className={classes.backButton} onClick={ () => {navigate( "/account" ); } }>
+            Back
+          </button>
         </form>
       </div>
     </div>
