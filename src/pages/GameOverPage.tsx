@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, redirect, Router, useLocation, useNavigate } from "react-router-dom";
 import classes from "./GameOverPage.module.css";
 
 function GameOverPage() {
@@ -38,7 +38,7 @@ function GameOverPage() {
           <p>Penalty: {data.penalty ? "-5" : "No penalty"}</p>
         </div>
 
-        <button className={classes.backButton} onClick={}>Back to home</button>
+        <button className={classes.backButton} onClick={ () => {navigate( "/" ); } }>Back to home</button>
       </div>
     </div>
   );
