@@ -11,6 +11,7 @@ import LoadingSpinner from "./LoadingSpinner";
 // oh god
 const blacklist: string[] = [
   "porn",
+  "hub",
   "mom",
   "mother",
   "mudder",
@@ -28,12 +29,22 @@ function AuthForm() {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
 
+  function checkForVulgarities( val: string )
+  {
+    for ( var blockedword of blacklist )
+    {
+      if ( val.includes( blockedword ) ) return false;
+    }
+
+    return true;
+  }
+
   const {
     regular: emailRegular,
     confirm: emailConfirm,
     reset: resetEmail,
   } = useInput(
-    (val) => val.includes("@"),
+    (val) => val.includes("@") && checkForVulgarities( val ),
     "Please provide a valid email address."
   );
 
@@ -46,23 +57,8 @@ function AuthForm() {
     "Please provide a password longer than 6 characters."
   );
 
-  function validateDisplayName( val: string ): boolean
-  {
-    // All inputs are invalid till proven otherwise
-
-    // Check for length
-    if ( val.trim().length < 2 ) return false;
-
-    for ( var blockedword of blacklist )
-    {
-      if ( val.includes( blockedword ) ) return false;
-    }
-
-    return true;
-  }
-
   const { regular: displayNameRegular, reset: resetDisplayName } = useInput(
-    (val) => validateDisplayName( val ),
+    (val) =>  val.trim().length > 2 && checkForVulgarities( val ),
     "Please provide a display name longer than 2 characters, and does not include vulgarities."
   );
 
