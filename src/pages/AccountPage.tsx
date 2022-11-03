@@ -22,11 +22,11 @@ function AccountPage() {
       <div className={classes.formContainer}>
         <div className={classes.detailsContainer}>
           <div className={classes.detailsInnerContainer}>
-            <p style={{ textAlign: "right" }}>Current display name: </p>
+            <p style={{ textAlign: "right", fontWeight: "bold" }}>Current display name: </p>
             <p className={classes.nameText}>{user?.displayName}</p>
           </div>
           <div className={classes.detailsInnerContainer}>
-            <p style={{ textAlign: "right" }}>Email: </p>
+            <p style={{ textAlign: "right", fontWeight: "bold" }}>Email: </p>
             <p className={classes.emailText}>{user?.email}</p>
           </div>
         </div>
