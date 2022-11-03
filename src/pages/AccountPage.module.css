@@ -56,6 +56,22 @@
   color: white;
 }
 
+.deleteAccountButton {
+  font-size: 1.2rem;
+  margin: 8px 20px;
+  margin-top: 50px;
+
+  color: white;
+  background-color: red;
+
+  border-radius: 16px;
+  border: 0px;
+  filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
+
+  padding: 16px 100px;
+  cursor: pointer;
+}
+
 .fieldContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
