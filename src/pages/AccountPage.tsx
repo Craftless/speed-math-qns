@@ -13,6 +13,16 @@ function AccountPage() {
   return (
     <div className={classes.outerContainer}>
       <div className={classes.formContainer}>
+        <div className={classes.detailsContainer}>
+          <p>
+            <strong>Current display name: </strong>
+            {user?.displayName}
+          </p>
+          <p>
+            <strong>Email: </strong>
+            {user?.email}
+          </p>
+        </div>
         <div className={classes.btnsContainer}>
           <button
             className={classes.genericBtn}
@@ -27,18 +37,7 @@ function AccountPage() {
           >
             Reset Password
           </button>
-          {/* <button
-            className={classes.genericBtn}
-            onClick={async () => {
-              try {
-                
-              } catch (e: any) {
-                alert(e.code + e.message);
-              }
-            }}
-          >
-            Reset Progress
-          </button> */}
+
           <button
             className={classes.genericBtn}
             onClick={async () => {

@@ -26,15 +26,25 @@ function GameOverPage() {
   return (
     <div className={classes.outerContainer}>
       <div className={classes.scoreBreakdownOuterContainer}>
+        <h1>Game Over</h1>
         <div className={classes.scoreTextContainer}>
           <p>Score: {data.score}</p>
         </div>
-        <div>
+        <div className={classes.scoreDetailsContainer}>
           <p>Correct: {data.numCorrect}</p>
           <p>Wrong: {data.numWrong}</p>
           <p>Skipped: {data.numSkipped}</p>
           <p>Penalty: {data.penalty ? "-5" : "No penalty"}</p>
         </div>
+
+        <button
+          className={classes.backButton}
+          onClick={() => {
+            navigate("/", { replace: true });
+          }}
+        >
+          Back to home
+        </button>
       </div>
     </div>
   );

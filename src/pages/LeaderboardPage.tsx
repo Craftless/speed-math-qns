@@ -14,19 +14,20 @@ interface PlayerRepresentation {
   userId: string;
 }
 
-function LeaderboardPage() {
-  const [leaderboardArray, setLeaderboardArray] = useState(
-    [] as PlayerRepresentation[]
-  );
+function LeaderboardPage()
+{
+  const [leaderboardArray, setLeaderboardArray] =
+    useState( [] as PlayerRepresentation[] );
 
   const [lbType, setLbType] = useState("totalScore");
 
   useEffect(() => {
     (async () => {
-      const lowest20: {
-        [uid: string]: number;
-      } = await (
-        await projectDatabase.ref(`top20/${lbType}`).orderByValue().limitToFirst(1).get()
+      const lowest20: { [uid: string]: number; } = await
+      (await projectDatabase.ref(`top20/${lbType}`)
+            .orderByValue()
+            .limitToFirst(1)
+            .get()
       ).val();
 
       // 1. Fetch data from Firebase
@@ -40,22 +41,21 @@ function LeaderboardPage() {
           )
           .get()
       ).docs;
-      const objArr = data.map((val) => val.data());
-      // const data = await projectFirestore.collection('lbTotalScore').orderBy(firebase.firestore.FieldPath.documentId()).limit(3).get();
+      const objArr = data.map( (val) => val.data() );
 
-      // Format the data
-      let finalObj: {
-        [uid: string]: number;
-      } = {};
+      // 1a. Format the data
+      // I have absolutely no idea what this does -AV306
+      let finalObj: { [uid: string]: number; } = {};
       for (const bracketObj of objArr) {
         finalObj = { ...finalObj, ...bracketObj };
       }
 
-      const finalArr = Object.keys(finalObj).map((key) => {
-        return {
-          uid: key,
-          valueToDisplay: finalObj[key],
-        };
+      const finalArr = Object.keys(finalObj)
+          .map((key) => {
+              return {
+              uid: key,
+              valueToDisplay: finalObj[key],
+           };
       });
 
       // Sort by score

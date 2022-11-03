@@ -72,3 +72,7 @@
   flex-direction: column;
   align-items: center;
 }
+.detailsContainer {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
