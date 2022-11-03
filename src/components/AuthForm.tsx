@@ -11,6 +11,7 @@ function AuthForm() {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
 
+  // This part could actually be regex
   const {
     regular: emailRegular,
     confirm: emailConfirm,
