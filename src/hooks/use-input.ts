@@ -1,15 +1,16 @@
-import {
-  ChangeEvent, FocusEvent, useState
-} from "react";
+import { ChangeEvent, FocusEvent, useState } from "react";
 
 function useInput(
   validationFunc: (value: string) => boolean,
-  invalidMessage: string
+  invalidMessage: string,
+  defaultValue?: string
 ) {
-  const [enteredValue, setEnteredValue] = useState("");
+  const [enteredValue, setEnteredValue] = useState(defaultValue ?? "");
   const [isTouched, setIsTouched] = useState(false);
 
-  const [enteredConfirmValue, setEnteredConfirmValue] = useState("");
+  const [enteredConfirmValue, setEnteredConfirmValue] = useState(
+    defaultValue ?? ""
+  );
   const [confirmIsTouched, setConfirmIsTouched] = useState(false);
 
   const valueIsValid = validationFunc(enteredValue);

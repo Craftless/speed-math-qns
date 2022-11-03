@@ -6,3 +6,7 @@
   align-items: stretch;
   padding: 32px;
 }
+
+.spinnerContainer {
+  align-items: center;
+}

@@ -110,53 +110,62 @@ function QuizPage() {
           finalScore -= 5;
         }
         setGameReady(false);
-        await projectFirestore
-          .collection("userData")
-          .doc(user!.uid)
-          .set(
-            {
-              totalWrong: firebase.firestore.FieldValue.increment(numWrong),
-              totalCorrect: firebase.firestore.FieldValue.increment(numCorrect),
-              totalSkipped: firebase.firestore.FieldValue.increment(numSkipped),
-              totalScore: firebase.firestore.FieldValue.increment(finalScore),
-              totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
-            },
-            { merge: true }
-          );
-        await projectFirestore
-          .collection("stats")
-          .doc("homePageStats")
-          .update({
-            totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
-          });
 
-        await projectFirestore
-          .collection("totalScore")
-          .doc(String(Math.round(score / 100) * 100))
-          .set(
-            {
-              [user!.uid]: firebase.firestore.FieldValue.increment(finalScore),
-            },
-            { merge: true }
-          );
-
-        const top20 = await projectDatabase.ref("top20/totalScore").get();
-        const top20Val: { [uid: string]: number } = await top20.val();
-        if (top20.numChildren() < 20) {
-          await projectDatabase.ref("top20/totalScore").update({
-            [user!.uid]: firebase.database.ServerValue.increment(finalScore),
-          });
-        } else {
-          const lowestUid = Object.keys(top20Val).sort(
-            (a, b) => top20Val[a] - top20Val[b]
-          )[0];
-          if (top20Val[lowestUid] < finalScore) {
+        const writeIfTop20 = async () => {
+          const top20 = await projectDatabase.ref("top20/totalScore").get();
+          const top20Val: { [uid: string]: number } = await top20.val();
+          if (top20.numChildren() < 20) {
             await projectDatabase.ref("top20/totalScore").update({
-              [lowestUid]: null,
-              [user!.uid]: finalScore,
+              [user!.uid]: firebase.database.ServerValue.increment(finalScore),
             });
+          } else {
+            const lowestUid = Object.keys(top20Val).sort(
+              (a, b) => top20Val[a] - top20Val[b]
+            )[0];
+            if (top20Val[lowestUid] < finalScore) {
+              await projectDatabase.ref("top20/totalScore").update({
+                [lowestUid]: null,
+                [user!.uid]: finalScore,
+              });
+            }
           }
-        }
+        };
+
+        await Promise.allSettled([
+          projectFirestore
+            .collection("userData")
+            .doc(user!.uid)
+            .set(
+              {
+                totalWrong: firebase.firestore.FieldValue.increment(numWrong),
+                totalCorrect:
+                  firebase.firestore.FieldValue.increment(numCorrect),
+                totalSkipped:
+                  firebase.firestore.FieldValue.increment(numSkipped),
+                totalScore: firebase.firestore.FieldValue.increment(finalScore),
+                totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
+              },
+              { merge: true }
+            ),
+          projectFirestore
+            .collection("stats")
+            .doc("homePageStats")
+            .update({
+              totalGamesPlayed: firebase.firestore.FieldValue.increment(1),
+            }),
+          projectFirestore
+            .collection("totalScore")
+            .doc(String(Math.round(score / 100) * 100))
+            .set(
+              {
+                [user!.uid]:
+                  firebase.firestore.FieldValue.increment(finalScore),
+              },
+              { merge: true }
+            ),
+          writeIfTop20(),
+        ]);
+        
       } catch (e) {
         console.log(e);
         alert(e);
@@ -169,7 +178,7 @@ function QuizPage() {
             numWrong,
             numSkipped,
             score: finalScore,
-            penalty: !completed
+            penalty: !completed,
           },
         },
         replace: true,
@@ -194,7 +203,7 @@ function QuizPage() {
   }, [timeLeft]);
 
   return !gameReady ? (
-    <div className={classes.outerContainer}>
+    <div className={`${classes.outerContainer} ${classes.spinnerContainer}`}>
       <LoadingSpinner width={100} height={100} borderWidth={25} />
     </div>
   ) : (
