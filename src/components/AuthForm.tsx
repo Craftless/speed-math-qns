@@ -19,7 +19,9 @@ const blacklist: string[] = [
   "boobs",
   "pussy",
   "dick",
-  "penis"
+  "penis",
+  "sex",
+  "nigg"
 ];
 
 function AuthForm() {
