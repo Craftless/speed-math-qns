@@ -53,6 +53,7 @@ function EditAccountDetailsPage() {
                   user!.updateEmail(emailRegular.value),
                 ]);
                 setIsPending(false);
+                alert( "Success!" );
                 navigate("/account", { replace: true });
               } else {
                 setAllTouched();
@@ -63,7 +64,7 @@ function EditAccountDetailsPage() {
             <InputField label="Email Address" valueInput={emailRegular} />
             <InputField label="Email Address" valueInput={emailConfirm} />
             <button
-              className={`${classes.saveChangesBtn} ${
+              className={`${classes.genericBtn} ${classes.saveChangesBtn} ${
                 !formIsValid ? classes.disabledBtn : ""
               }`}
             >
@@ -71,7 +72,7 @@ function EditAccountDetailsPage() {
             </button>
 
             <button
-              className={classes.backButton}
+              className={`${classes.genericBtn} ${classes.backButton}`}
               onClick={() => {
                 navigate("/account");
               }}

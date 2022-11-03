@@ -21,21 +21,50 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-
-.saveChangesBtn {
+.genericBtn {
   margin: 8px 20px;
   padding: 16px 100px;
 
   font-size: 1.2rem;
-  color: rgb(255, 255, 255);
 
-  border: none;
   border-radius: 16px;
+  border: 0px;
+  color: white;
   background-image: linear-gradient(100deg, rgb(0, 102, 255), rgb(0, 217, 255));
 
   filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
+
   cursor: pointer;
 }
+
+.genericBtn:hover {
+  background-image: linear-gradient(
+    100deg,
+    rgb(0, 68, 255),
+    rgb(0, 174, 255)
+    );
+}
+
+.genericBtn:invalid {
+  background-image: linear-gradient(100deg, rgb(79, 79, 79), rgb(138, 138, 138));
+}
+
+/* There's SO much duplicated code here but at this point I don't really care sorry -AV306 */
+.disabledBtn {
+  background-image: linear-gradient(100deg, rgb(79, 79, 79), rgb(138, 138, 138));
+}
+
+.disabledBtn:hover {
+  background-image: linear-gradient(100deg, rgb(79, 79, 79), rgb(138, 138, 138));
+}
+
+
+.saveChangesBtn {
+}
+
+.backButton {
+}
+
 
 
 .actualForm {
@@ -50,22 +79,4 @@
   margin: auto;
 
   width: 50%;
-}
-
-.backButton {
-  border-radius: 16px;
-  font-size: 1.2rem;
-  padding: 15px 25px;
-  border: 0px;
-  margin-top: 15px;
-
-  color: white;
-
-  background-image: linear-gradient(100deg, rgb(0, 102, 255), rgb(0, 217, 255));
-  filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
-}
-
-.backButton:hover {
-  background-image: linear-gradient(100deg, rgb(46, 129, 255),rgb(48, 224, 255));
-  cursor: pointer;
 }
